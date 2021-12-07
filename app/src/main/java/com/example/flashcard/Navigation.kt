@@ -3,10 +3,9 @@ package com.example.flashcard
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
@@ -48,105 +47,88 @@ fun MainScreen(navController: NavController) {
 //            words.add("start3")
 //            words.add("start4")
 //            words.add("start5")
-    Column(
-        modifier = Modifier.verticalScroll(scrollState)
-    ) {
-        if (words.size % 2 == 0) {
-            var j = 0
-            for (i in 1..(words.size / 2)) {
-                Row() {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = words.get(j)
-                        )
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = words.get(j + 1)
-                        )
-                    }
-                }
-                j += 2
+    Scaffold(topBar = { },
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate(Screen.AddWordScreen.route) }
+            ) {
+                Icon(Icons.Filled.Add, "")
             }
-            Row() {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .padding(16.dp)
-                        .clickable {
-                            navController.navigate(Screen.AddWordScreen.route)
+        }, content = {
+            Column(
+                modifier = Modifier.verticalScroll(scrollState)
+            ) {
+                if (words.size % 2 == 0) {
+                    var j = 0
+                    for (i in 1..(words.size / 2)) {
+                        Row() {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .padding(16.dp)
+                            ) {
+                                ImageCard(
+                                    painter = painter,
+                                    title = words.get(j)
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                ImageCard(
+                                    painter = painter,
+                                    title = words.get(j + 1)
+                                )
+                            }
                         }
-                ) {
-                    ImageCard(
-                        painter = add_pic,
-                        title = "add new words"
-                    )
-                }
-            }
-        } else {
-            var j = 0
-            for (i in 1..(words.size / 2)) {
-                Row() {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = words.get(j)
-                        )
+                        j += 2
                     }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = words.get(j + 1)
-                        )
-                    }
-                }
-                j += 2
-            }
-            Row() {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .padding(16.dp)
-                ) {
-                    ImageCard(
-                        painter = painter,
-                        title = words.get(words.size - 1)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .clickable {
-                            navController.navigate(Screen.AddWordScreen.route)
+                } else {
+                    var j = 0
+                    for (i in 1..(words.size / 2)) {
+                        Row() {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .padding(16.dp)
+                            ) {
+                                ImageCard(
+                                    painter = painter,
+                                    title = words.get(j)
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                ImageCard(
+                                    painter = painter,
+                                    title = words.get(j + 1)
+                                )
+                            }
                         }
-                ) {
-                    ImageCard(
-                        painter = add_pic,
-                        title = "add new words"
-                    )
+                        j += 2
+                    }
+                    Row() {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(0.5f)
+                                .padding(16.dp)
+                        ) {
+                            ImageCard(
+                                painter = painter,
+                                title = words.get(words.size - 1)
+                            )
+                        }
+                    }
                 }
             }
-        }
-    }
+        })
+
 }
 
 @Composable
@@ -158,7 +140,7 @@ fun AddWordScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(horizontal = 50.dp)
     ) {
         TextField(
