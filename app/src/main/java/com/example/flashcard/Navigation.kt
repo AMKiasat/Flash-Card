@@ -7,13 +7,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.flashcard.activities.AddCategoryActivity
 import com.example.flashcard.activities.CategoriesActivity
+import com.example.flashcard.activities.StartActivity
 import com.example.flashcard.objects.Card
 
 val CARDS_LIST = ArrayList<Card>()
 
 
 sealed class ScreenRoute(val route: String) {
-    object MainScreenRoute : ScreenRoute("main_screen")
+    object StartScreenRoute : ScreenRoute("start_screen")
+
     object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
 
     object CategoryScreenRoute : ScreenRoute("category_screen")
@@ -25,8 +27,13 @@ sealed class ScreenRoute(val route: String) {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ScreenRoute.MainScreenRoute.route) {
-        composable(route = ScreenRoute.MainScreenRoute.route) {
+    NavHost(navController = navController, startDestination = ScreenRoute.StartScreenRoute.route) {
+        
+        composable(route = ScreenRoute.StartScreenRoute.route){
+            StartActivity(navController = navController)
+        }
+        
+        composable(route = ScreenRoute.CategoryScreenRoute.route) {
             CategoriesActivity(navController = navController)
         }
         composable(route = ScreenRoute.AddCategoryScreenRoute.route) {

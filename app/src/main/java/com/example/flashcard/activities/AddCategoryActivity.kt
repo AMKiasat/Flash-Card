@@ -53,7 +53,7 @@ fun AddCategoryActivity(navController: NavController) {
                 val card = Card()
                 card.word = text
                 CARDS_LIST.add(card)
-                navController.navigate(ScreenRoute.MainScreenRoute.route)
+                navController.navigate(ScreenRoute.CategoryScreenRoute.route)
             },
             modifier = Modifier.align(Alignment.End)
         ) {
