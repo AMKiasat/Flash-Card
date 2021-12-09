@@ -1,4 +1,4 @@
-package com.example.flashcard.Components
+package com.example.flashcard.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,6 +1,5 @@
 package com.example.flashcard
 
-import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,8 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.flashcard.Components.ImageCard
-import com.example.flashcard.Components.ImageCardList
+import com.example.flashcard.components.ImageCardList
+import com.example.flashcard.objects.Card
 
 @Composable
 fun Navigation() {

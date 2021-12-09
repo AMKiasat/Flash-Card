@@ -1,4 +1,4 @@
-package com.example.flashcard.Components
+package com.example.flashcard.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
