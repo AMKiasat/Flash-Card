@@ -1,116 +1,40 @@
 package com.example.flashcard
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.flashcard.components.ImageCardList
+import com.example.flashcard.activities.AddCategoryActivity
+import com.example.flashcard.activities.CategoriesActivity
 import com.example.flashcard.objects.Card
 
 val CARDS_LIST = ArrayList<Card>()
 
 
+sealed class ScreenRoute(val route: String) {
+    object MainScreenRoute : ScreenRoute("main_screen")
+    object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
 
-
-
+    object CategoryScreenRoute : ScreenRoute("category_screen")
+    object AddWordScreenRoute : ScreenRoute("add_word_screen")
+}
 
 
 @ExperimentalFoundationApi
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
-        composable(route = Screen.MainScreen.route) {
-            MainScreen(navController = navController)
+    NavHost(navController = navController, startDestination = ScreenRoute.MainScreenRoute.route) {
+        composable(route = ScreenRoute.MainScreenRoute.route) {
+            CategoriesActivity(navController = navController)
         }
-        composable(route = Screen.AddWordScreen.route) {
-            AddWordScreen(navController = navController)
-        }
-    }
-}
-
-
-
-@ExperimentalFoundationApi
-@Composable
-fun MainScreen(navController: NavController) {
-    for (i in 0..2){
-        CARDS_LIST.add(Card())
-    }
-
-    val painter = painterResource(id = R.drawable.start_now)
-//    val add_pic = painterResource(id = R.drawable.add)
-//            words.add("start3")
-//            words.add("start4")
-//            words.add("start5")
-    Scaffold(topBar = { },
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigate(Screen.AddWordScreen.route) }
-            ) {
-                Icon(Icons.Filled.Add, "")
-            }
-        }, content = {
-            ImageCardList(cards_list = CARDS_LIST)
-        })
-
-}
-
-@Composable
-fun AddWordScreen(navController: NavController) {
-    var text by remember {
-        mutableStateOf("")
-    }
-    val often by remember {
-        mutableStateOf("")
-    }
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 50.dp)
-    ) {
-        TextField(
-            value = text,
-            onValueChange = {
-                text = it
-            },
-            modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text("Enter your new word")
-            }
-        )
-        Spacer(modifier = Modifier.size(8.dp))
-        Text(text = "How often do you want to remind this word ?")
-        Spacer(modifier = Modifier.size(8.dp))
-//        Column {
-//            RadioButton(selected = often == , onClick = {
-//
-//            })
-//        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = {
-                val card = Card()
-                card.word = text
-                CARDS_LIST.add(card)
-                navController.navigate(Screen.MainScreen.route)
-            },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Add")
+        composable(route = ScreenRoute.AddCategoryScreenRoute.route) {
+            AddCategoryActivity(navController = navController)
         }
     }
 }
+
+
+
+
