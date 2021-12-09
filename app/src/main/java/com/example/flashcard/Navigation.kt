@@ -17,6 +17,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.flashcard.components.ImageCardList
 import com.example.flashcard.objects.Card
 
+val CARDS_LIST = ArrayList<Card>()
+
+
+
+
+
+
+
 @ExperimentalFoundationApi
 @Composable
 fun Navigation() {
@@ -31,11 +39,14 @@ fun Navigation() {
     }
 }
 
-val cards = ArrayList<Card>()
+
 
 @ExperimentalFoundationApi
 @Composable
 fun MainScreen(navController: NavController) {
+    for (i in 0..2){
+        CARDS_LIST.add(Card())
+    }
 
     val painter = painterResource(id = R.drawable.start_now)
 //    val add_pic = painterResource(id = R.drawable.add)
@@ -51,7 +62,7 @@ fun MainScreen(navController: NavController) {
                 Icon(Icons.Filled.Add, "")
             }
         }, content = {
-            ImageCardList(cards_list = cards)
+            ImageCardList(cards_list = CARDS_LIST)
         })
 
 }
@@ -94,7 +105,7 @@ fun AddWordScreen(navController: NavController) {
             onClick = {
                 val card = Card()
                 card.word = text
-                cards.add(card)
+                CARDS_LIST.add(card)
                 navController.navigate(Screen.MainScreen.route)
             },
             modifier = Modifier.align(Alignment.End)

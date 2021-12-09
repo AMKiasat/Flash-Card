@@ -22,7 +22,7 @@ fun ImageCardList(
     LazyVerticalGrid(
 
         cells = GridCells.Fixed(2),
-        modifier = Modifier.padding(bottom = 10.dp)
+        modifier = Modifier.padding(bottom = 10.dp),
     ) {
 
         items(cards_list.size) {
