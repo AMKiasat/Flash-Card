@@ -1,5 +1,6 @@
 package com.example.flashcard
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.flashcard.components.ImageCardList
 import com.example.flashcard.objects.Card
 
+@ExperimentalFoundationApi
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -31,6 +33,7 @@ fun Navigation() {
 
 val cards = ArrayList<Card>()
 
+@ExperimentalFoundationApi
 @Composable
 fun MainScreen(navController: NavController) {
 
@@ -48,7 +51,7 @@ fun MainScreen(navController: NavController) {
                 Icon(Icons.Filled.Add, "")
             }
         }, content = {
-            ImageCardList(painter = painter)
+            ImageCardList(cards_list = cards)
         })
 
 }

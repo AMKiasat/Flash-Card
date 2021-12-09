@@ -27,6 +27,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

@@ -1,91 +1,51 @@
 package com.example.flashcard.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.flashcard.cards
+import com.example.flashcard.R
+import com.example.flashcard.objects.Card
 
 
+
+
+
+
+@ExperimentalFoundationApi
 @Composable
 fun ImageCardList(
     modifier : Modifier=Modifier,
-    painter :Painter
+    cards_list : ArrayList<Card>
 ){
 
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier.verticalScroll(scrollState)
+
+    LazyVerticalGrid(
+
+        cells = GridCells.Fixed(2),
+        modifier = Modifier.padding(bottom = 10.dp)
     ) {
-        if (cards.size % 2 == 0) {
-            var j = 0
-            for (i in 1..(cards.size / 2)) {
-                Row() {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = cards.get(j).word
-                        )
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = cards.get(j + 1).word
-                        )
-                    }
-                }
-                j += 2
-            }
-        } else {
-            var j = 0
-            for (i in 1..(cards.size / 2)) {
-                Row() {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = cards.get(j).word
-                        )
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        ImageCard(
-                            painter = painter,
-                            title = cards.get(j + 1).word
-                        )
-                    }
-                }
-                j += 2
-            }
-            Row() {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .padding(16.dp)
-                ) {
-                    ImageCard(
-                        painter = painter,
-                        title = cards.get(cards.size - 1).word
-                    )
-                }
-            }
+
+        items(cards_list.size) {
+            val  the_card = cards_list.get(it)
+            ImageCard(
+                modifier = modifier.padding(10.dp),
+                painter = painterResource(id = the_card.painter_id) ,
+                title = the_card.word
+            )
         }
     }
+    
+   
 }
+
