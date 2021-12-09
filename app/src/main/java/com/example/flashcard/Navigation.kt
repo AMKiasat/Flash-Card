@@ -21,8 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
 
 @Composable
 fun Navigation() {
@@ -37,10 +35,11 @@ fun Navigation() {
     }
 }
 
-val words = ArrayList<String>()
+val cards = ArrayList<Card>()
 
 @Composable
 fun MainScreen(navController: NavController) {
+
     val scrollState = rememberScrollState()
     val painter = painterResource(id = R.drawable.start_now)
     val add_pic = painterResource(id = R.drawable.add)
@@ -59,9 +58,9 @@ fun MainScreen(navController: NavController) {
             Column(
                 modifier = Modifier.verticalScroll(scrollState)
             ) {
-                if (words.size % 2 == 0) {
+                if (cards.size % 2 == 0) {
                     var j = 0
-                    for (i in 1..(words.size / 2)) {
+                    for (i in 1..(cards.size / 2)) {
                         Row() {
                             Box(
                                 modifier = Modifier
@@ -70,7 +69,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j)
+                                    title = cards.get(j).word
                                 )
                             }
                             Box(
@@ -80,7 +79,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j + 1)
+                                    title = cards.get(j + 1).word
                                 )
                             }
                         }
@@ -88,7 +87,7 @@ fun MainScreen(navController: NavController) {
                     }
                 } else {
                     var j = 0
-                    for (i in 1..(words.size / 2)) {
+                    for (i in 1..(cards.size / 2)) {
                         Row() {
                             Box(
                                 modifier = Modifier
@@ -97,7 +96,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j)
+                                    title = cards.get(j).word
                                 )
                             }
                             Box(
@@ -107,7 +106,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j + 1)
+                                    title = cards.get(j + 1).word
                                 )
                             }
                         }
@@ -121,7 +120,7 @@ fun MainScreen(navController: NavController) {
                         ) {
                             ImageCard(
                                 painter = painter,
-                                title = words.get(words.size - 1)
+                                title = cards.get(cards.size - 1).word
                             )
                         }
                     }
@@ -134,6 +133,9 @@ fun MainScreen(navController: NavController) {
 @Composable
 fun AddWordScreen(navController: NavController) {
     var text by remember {
+        mutableStateOf("")
+    }
+    val often by remember {
         mutableStateOf("")
     }
     Column(
@@ -153,10 +155,20 @@ fun AddWordScreen(navController: NavController) {
                 Text("Enter your new word")
             }
         )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text = "How often do you want to remind this word ?")
+        Spacer(modifier = Modifier.size(8.dp))
+//        Column {
+//            RadioButton(selected = often == , onClick = {
+//
+//            })
+//        }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                words.add(text)
+                val card = Card()
+                card.word = text
+                cards.add(card)
                 navController.navigate(Screen.MainScreen.route)
             },
             modifier = Modifier.align(Alignment.End)
@@ -208,3 +220,9 @@ fun ImageCard(
         }
     }
 }
+
+//object Often {
+//    const val daily = "0"
+//    const val weekly = "1"
+//    const val monthly = "2"
+//}
