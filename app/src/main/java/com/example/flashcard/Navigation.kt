@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.flashcard.Components.ImageCard
+import com.example.flashcard.Components.ImageCardList
 
 @Composable
 fun Navigation() {
@@ -34,9 +35,8 @@ val cards = ArrayList<Card>()
 @Composable
 fun MainScreen(navController: NavController) {
 
-    val scrollState = rememberScrollState()
     val painter = painterResource(id = R.drawable.start_now)
-    val add_pic = painterResource(id = R.drawable.add)
+//    val add_pic = painterResource(id = R.drawable.add)
 //            words.add("start3")
 //            words.add("start4")
 //            words.add("start5")
@@ -49,77 +49,7 @@ fun MainScreen(navController: NavController) {
                 Icon(Icons.Filled.Add, "")
             }
         }, content = {
-            Column(
-                modifier = Modifier.verticalScroll(scrollState)
-            ) {
-                if (cards.size % 2 == 0) {
-                    var j = 0
-                    for (i in 1..(cards.size / 2)) {
-                        Row() {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.5f)
-                                    .padding(16.dp)
-                            ) {
-                                ImageCard(
-                                    painter = painter,
-                                    title = cards.get(j).word
-                                )
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            ) {
-                                ImageCard(
-                                    painter = painter,
-                                    title = cards.get(j + 1).word
-                                )
-                            }
-                        }
-                        j += 2
-                    }
-                } else {
-                    var j = 0
-                    for (i in 1..(cards.size / 2)) {
-                        Row() {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.5f)
-                                    .padding(16.dp)
-                            ) {
-                                ImageCard(
-                                    painter = painter,
-                                    title = cards.get(j).word
-                                )
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            ) {
-                                ImageCard(
-                                    painter = painter,
-                                    title = cards.get(j + 1).word
-                                )
-                            }
-                        }
-                        j += 2
-                    }
-                    Row() {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.5f)
-                                .padding(16.dp)
-                        ) {
-                            ImageCard(
-                                painter = painter,
-                                title = cards.get(cards.size - 1).word
-                            )
-                        }
-                    }
-                }
-            }
+            ImageCardList(painter = painter)
         })
 
 }
@@ -171,11 +101,3 @@ fun AddWordScreen(navController: NavController) {
         }
     }
 }
-
-
-
-//object Often {
-//    const val daily = "0"
-//    const val weekly = "1"
-//    const val monthly = "2"
-//}
