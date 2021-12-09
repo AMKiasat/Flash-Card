@@ -1,6 +1,4 @@
 package com.example.flashcard.objects
-
-import androidx.compose.ui.graphics.painter.Painter
 import com.example.flashcard.R
 
 class Card {
