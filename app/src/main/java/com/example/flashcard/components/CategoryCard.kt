@@ -1,8 +1,6 @@
 package com.example.flashcard.components
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +17,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun CategoryCard(
@@ -26,27 +26,26 @@ fun CategoryCard(
     title: String,
     modifier: Modifier = Modifier
 ) {
-//
-//    var x_offset by remember {
-//        mutableStateOf(0.dp)
-//    }
-//
-//    val move by animateDpAsState(
-//        targetValue = x_offset,
-//        keyframes {
-//            durationMillis = 2000
-//            delayMillis = 2000
-//            x_offset -100.dp at 0 with LinearEasing
-//            x_offset at 2000
-//        }
-//
-//    )
+    var x_offset = remember {
+        Animatable(1f)
+    }
+
+    LaunchedEffect(key1 = true){
+        x_offset.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(
+                durationMillis = 500,
+                easing = LinearEasing
+
+            )
+        )
+    }
 
 
     Card(
         modifier = modifier
-            .fillMaxWidth(),
-//            .absoluteOffset(x= move),
+            .fillMaxWidth()
+            .offset(x= (x_offset.value * -100).roundToInt().dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
     ) {
