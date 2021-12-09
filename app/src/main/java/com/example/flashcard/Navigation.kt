@@ -2,6 +2,7 @@ package com.example.flashcard
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -12,10 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.example.flashcard.FlashCardComponents.ImageCard
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun Navigation() {
@@ -30,10 +35,11 @@ fun Navigation() {
     }
 }
 
-val words = ArrayList<String>()
+val cards = ArrayList<Card>()
 
 @Composable
 fun MainScreen(navController: NavController) {
+
     val scrollState = rememberScrollState()
     val painter = painterResource(id = R.drawable.start_now)
     val add_pic = painterResource(id = R.drawable.add)
@@ -52,9 +58,9 @@ fun MainScreen(navController: NavController) {
             Column(
                 modifier = Modifier.verticalScroll(scrollState)
             ) {
-                if (words.size % 2 == 0) {
+                if (cards.size % 2 == 0) {
                     var j = 0
-                    for (i in 1..(words.size / 2)) {
+                    for (i in 1..(cards.size / 2)) {
                         Row() {
                             Box(
                                 modifier = Modifier
@@ -63,7 +69,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j)
+                                    title = cards.get(j).word
                                 )
                             }
                             Box(
@@ -73,7 +79,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j + 1)
+                                    title = cards.get(j + 1).word
                                 )
                             }
                         }
@@ -81,7 +87,7 @@ fun MainScreen(navController: NavController) {
                     }
                 } else {
                     var j = 0
-                    for (i in 1..(words.size / 2)) {
+                    for (i in 1..(cards.size / 2)) {
                         Row() {
                             Box(
                                 modifier = Modifier
@@ -90,7 +96,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j)
+                                    title = cards.get(j).word
                                 )
                             }
                             Box(
@@ -100,7 +106,7 @@ fun MainScreen(navController: NavController) {
                             ) {
                                 ImageCard(
                                     painter = painter,
-                                    title = words.get(j + 1)
+                                    title = cards.get(j + 1).word
                                 )
                             }
                         }
@@ -114,7 +120,7 @@ fun MainScreen(navController: NavController) {
                         ) {
                             ImageCard(
                                 painter = painter,
-                                title = words.get(words.size - 1)
+                                title = cards.get(cards.size - 1).word
                             )
                         }
                     }
@@ -127,6 +133,9 @@ fun MainScreen(navController: NavController) {
 @Composable
 fun AddWordScreen(navController: NavController) {
     var text by remember {
+        mutableStateOf("")
+    }
+    val often by remember {
         mutableStateOf("")
     }
     Column(
@@ -146,10 +155,20 @@ fun AddWordScreen(navController: NavController) {
                 Text("Enter your new word")
             }
         )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text = "How often do you want to remind this word ?")
+        Spacer(modifier = Modifier.size(8.dp))
+//        Column {
+//            RadioButton(selected = often == , onClick = {
+//
+//            })
+//        }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                words.add(text)
+                val card = Card()
+                card.word = text
+                cards.add(card)
                 navController.navigate(Screen.MainScreen.route)
             },
             modifier = Modifier.align(Alignment.End)
@@ -159,9 +178,51 @@ fun AddWordScreen(navController: NavController) {
     }
 }
 
+@Composable
+fun ImageCard(
+    painter: Painter,
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp),
+        elevation = 5.dp
+    ) {
+        Box(modifier = Modifier.height(200.dp)) {
+            Image(
+                painter = painter,
+                contentDescription = title,
+                contentScale = ContentScale.Crop
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black
+                            ),
+                            startY = 300f
+                        )
 
-//@Preview
-//@Composable
-//fun show2() {
-//    ImageCard(painter = painterResource(id = R.drawable.start_now), title = "asd")
+                    )
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+                contentAlignment = Alignment.BottomStart
+            ) {
+                Text(text = title, style = TextStyle(color = Color.White, fontSize = 16.sp))
+            }
+        }
+    }
+}
+
+//object Often {
+//    const val daily = "0"
+//    const val weekly = "1"
+//    const val monthly = "2"
 //}
