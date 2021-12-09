@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.flashcard.CARDS_LIST
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.components.ImageCardList
+import com.example.flashcard.components.CategoryCardListBox
 
 
 @ExperimentalFoundationApi
@@ -27,7 +27,7 @@ fun CategoriesActivity(navController: NavController) {
                 Icon(Icons.Filled.Add, "")
             }
         }, content = {
-            ImageCardList(cards_list = CARDS_LIST)
+            CategoryCardListBox(cards_list = CARDS_LIST)
         })
 
 }

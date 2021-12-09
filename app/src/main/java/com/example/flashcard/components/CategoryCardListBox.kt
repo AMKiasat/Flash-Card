@@ -13,7 +13,7 @@ import com.example.flashcard.objects.Card
 
 @ExperimentalFoundationApi
 @Composable
-fun ImageCardList(
+fun CategoryCardListBox(
     modifier: Modifier = Modifier,
     cards_list: ArrayList<Card>
 ) {
@@ -27,7 +27,7 @@ fun ImageCardList(
 
         items(cards_list.size) {
             val the_card = cards_list.get(it)
-            ImageCard(
+            CategoryCard(
                 modifier = modifier.padding(10.dp),
                 painter = painterResource(id = the_card.painter_id),
                 title = the_card.word
