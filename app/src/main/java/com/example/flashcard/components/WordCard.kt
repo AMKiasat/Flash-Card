@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 @Composable
-fun CategoryCard(
+fun WordCard(
     painter: Painter,
     title: String,
     modifier: Modifier = Modifier

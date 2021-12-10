@@ -15,13 +15,13 @@ import com.example.flashcard.objects.Card
 
 
 @Composable
-fun AddCategoryActivity(navController: NavController) {
+fun AddWordActivity(navController: NavController) {
     var text by remember {
         mutableStateOf("")
     }
-    val often by remember {
-        mutableStateOf("")
-    }
+//    val often by remember {
+//        mutableStateOf("")
+//    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

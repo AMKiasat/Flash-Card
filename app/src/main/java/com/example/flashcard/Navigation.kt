@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.flashcard.activities.AddCategoryActivity
-import com.example.flashcard.activities.CategoriesActivity
+import com.example.flashcard.activities.AddWordActivity
+import com.example.flashcard.activities.WordsActivity
 import com.example.flashcard.activities.StartActivity
 import com.example.flashcard.objects.Card
 
@@ -34,10 +34,10 @@ fun Navigation() {
         }
         
         composable(route = ScreenRoute.CategoryScreenRoute.route) {
-            CategoriesActivity(navController = navController)
+            WordsActivity(navController = navController)
         }
         composable(route = ScreenRoute.AddCategoryScreenRoute.route) {
-            AddCategoryActivity(navController = navController)
+            AddWordActivity(navController = navController)
         }
     }
 }
