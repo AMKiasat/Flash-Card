@@ -5,27 +5,23 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.flashcard.activities.AddWordActivity
-import com.example.flashcard.activities.WordsActivity
-import com.example.flashcard.activities.StartActivity
-import com.example.flashcard.objects.Card
+import com.example.flashcard.activities.*
+import com.example.flashcard.activities.CategoryActivity
+import com.example.flashcard.objects.WordCard
+import com.example.flashcard.objects.CategoryCard
 
-val CARDS_LIST = ArrayList<Card>()
+val CARDS_LIST = ArrayList<WordCard>()
+val CATEGORY_LIST = ArrayList<CategoryCard>()
 
 
 sealed class ScreenRoute(val route: String) {
     object StartScreenRoute : ScreenRoute("start_screen")
 
-    object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
-
-    object CategoryScreenRoute : ScreenRoute("category_screen")
     object AddWordScreenRoute : ScreenRoute("add_word_screen")
-}
 
-
-sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
-    object Home : NavigationItem("home", R.drawable.ic_home, "Home")
-    object Categories : NavigationItem("categories", R.drawable.ic_categories, "Categories")
+    object WordScreenRoute : ScreenRoute("word_screen")
+    object CategoryScreenRoute : ScreenRoute("category_screen")
+    object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
 }
 
 @ExperimentalFoundationApi
@@ -37,12 +33,17 @@ fun Navigation() {
         composable(route = ScreenRoute.StartScreenRoute.route){
             StartActivity(navController = navController)
         }
-        
-        composable(route = ScreenRoute.CategoryScreenRoute.route) {
+        composable(route = ScreenRoute.WordScreenRoute.route) {
             WordsActivity(navController = navController)
         }
-        composable(route = ScreenRoute.AddCategoryScreenRoute.route) {
+        composable(route = ScreenRoute.AddWordScreenRoute.route) {
             AddWordActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.CategoryScreenRoute.route) {
+            CategoryActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.AddCategoryScreenRoute.route) {
+            AddCategoryActivity(navController = navController)
         }
     }
 }

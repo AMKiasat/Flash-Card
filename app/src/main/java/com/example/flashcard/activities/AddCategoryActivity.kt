@@ -10,18 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.flashcard.CARDS_LIST
+import com.example.flashcard.CATEGORY_LIST
 import com.example.flashcard.ScreenRoute
+import com.example.flashcard.objects.CategoryCard
 import com.example.flashcard.objects.WordCard
 
-
 @Composable
-fun AddWordActivity(navController: NavController) {
+fun AddCategoryActivity(navController: NavController) {
     var text by remember {
         mutableStateOf("")
     }
-//    val often by remember {
-//        mutableStateOf("")
-//    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -36,24 +34,17 @@ fun AddWordActivity(navController: NavController) {
             },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Enter your new word")
+                Text("Enter your category name")
             }
         )
         Spacer(modifier = Modifier.size(8.dp))
-        Text(text = "How often do you want to remind this word ?")
-        Spacer(modifier = Modifier.size(8.dp))
-//        Column {
-//            RadioButton(selected = often == , onClick = {
-//
-//            })
-//        }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                val card = WordCard()
-                card.word = text
-                CARDS_LIST.add(card)
-                navController.navigate(ScreenRoute.WordScreenRoute.route)
+                val categoryCard = CategoryCard()
+                categoryCard.name = text
+                CATEGORY_LIST.add(categoryCard)
+                navController.navigate(ScreenRoute.CategoryScreenRoute.route)
             },
             modifier = Modifier.align(Alignment.End)
         ) {

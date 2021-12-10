@@ -36,7 +36,7 @@ fun StartActivity(navController: NavController) {
             )
         )
         delay(3000)
-        navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+        navController.navigate(ScreenRoute.WordScreenRoute.route)
     }
     Box(
         contentAlignment = Alignment.Center,

@@ -12,11 +12,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.flashcard.NavigationItem
+import androidx.navigation.NavController
 import com.example.flashcard.R
+import com.example.flashcard.ScreenRoute
+import com.example.flashcard.objects.NavigationItem
 
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         NavigationItem.Home,
         NavigationItem.Categories
@@ -44,7 +46,8 @@ fun BottomNavigationBar() {
                 alwaysShowLabel = true,
                 selected = false,
                 onClick = {
-                    /* Add code later */
+                    navController.navigate(item.route)
+//                    navController.navigate(ScreenRoute.CategoryScreenRoute.route)
                 }
             )
         }

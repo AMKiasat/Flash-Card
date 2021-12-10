@@ -11,26 +11,25 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.flashcard.CARDS_LIST
+import com.example.flashcard.CATEGORY_LIST
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.components.WordCardListBox
-
+import com.example.flashcard.components.CategoryCardListBox
 
 @ExperimentalFoundationApi
 @Composable
-fun WordsActivity(navController: NavController) {
+fun CategoryActivity(navController: NavController) {
 
     Scaffold(topBar = { },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(ScreenRoute.AddWordScreenRoute.route) }
+                onClick = { navController.navigate(ScreenRoute.AddCategoryScreenRoute.route) }
             ) {
                 Icon(Icons.Filled.Add, "")
             }
         },
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            WordCardListBox(cards_list = CARDS_LIST)
+            CategoryCardListBox(cards_list = CATEGORY_LIST)
         }
     }
 
