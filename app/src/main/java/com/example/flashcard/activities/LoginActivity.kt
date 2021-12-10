@@ -30,7 +30,7 @@ fun LoginActivity(navController: NavController) {
         Animatable(1f)
     }
 
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         x_offset.animateTo(
             targetValue = 0f,
             animationSpec = tween(
@@ -50,17 +50,17 @@ fun LoginActivity(navController: NavController) {
 
         ) {
 
-        val usernameModifier = Modifier.offset(x=(x_offset.value * -100).roundToInt().dp)
-        Text(text = "username" , modifier = usernameModifier)
-        TextField(value = username, onValueChange = {
+        val usernameModifier = Modifier.offset(x = (x_offset.value * -100).roundToInt().dp)
+        Text(text = "username", modifier = usernameModifier)
+        TextField(value = username,modifier = usernameModifier, onValueChange = {
             username = it
         }, singleLine = true)
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        val passwordModifier = Modifier.offset(x=(x_offset.value * 100).roundToInt().dp)
-        Text(text = "password",modifier = passwordModifier)
-        TextField(value = password, onValueChange = {
+        val passwordModifier = Modifier.offset(x = (x_offset.value * 100).roundToInt().dp)
+        Text(text = "password", modifier = passwordModifier)
+        TextField(value = password, modifier = passwordModifier, onValueChange = {
             password = it
         }, singleLine = true)
 
@@ -71,7 +71,7 @@ fun LoginActivity(navController: NavController) {
                 .width(20.dp)
         )
 
-        val buttonModifier = Modifier.offset(y=(x_offset.value * 200).roundToInt().dp)
+        val buttonModifier = Modifier.offset(y = (x_offset.value * 200).roundToInt().dp)
         Button(
             onClick = {
                 navController.navigate(ScreenRoute.CategoryScreenRoute.route)
