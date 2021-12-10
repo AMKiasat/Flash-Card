@@ -6,9 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.flashcard.activities.*
-import com.example.flashcard.activities.CategoryActivity
-import com.example.flashcard.objects.WordCard
 import com.example.flashcard.objects.CategoryCard
+import com.example.flashcard.objects.WordCard
 
 val CARDS_LIST = ArrayList<WordCard>()
 val CATEGORY_LIST = ArrayList<CategoryCard>()
@@ -16,6 +15,7 @@ val CATEGORY_LIST = ArrayList<CategoryCard>()
 
 sealed class ScreenRoute(val route: String) {
     object StartScreenRoute : ScreenRoute("start_screen")
+    object LoginScreenRoute : ScreenRoute("login_screen")
 
     object AddWordScreenRoute : ScreenRoute("add_word_screen")
 
@@ -29,9 +29,12 @@ sealed class ScreenRoute(val route: String) {
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = ScreenRoute.StartScreenRoute.route) {
-        
-        composable(route = ScreenRoute.StartScreenRoute.route){
+
+        composable(route = ScreenRoute.StartScreenRoute.route) {
             StartActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.LoginScreenRoute.route) {
+            LoginActivity(navController = navController)
         }
         composable(route = ScreenRoute.WordScreenRoute.route) {
             WordsActivity(navController = navController)

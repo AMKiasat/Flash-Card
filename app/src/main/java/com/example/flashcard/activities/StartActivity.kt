@@ -30,13 +30,13 @@ fun StartActivity(navController: NavController) {
         scale.animateTo(
             targetValue = 1f,
             animationSpec = tween(
-                durationMillis = 3000,
+                durationMillis = 500,
                 easing = LinearEasing
 
             )
         )
-        delay(3000)
-        navController.navigate(ScreenRoute.WordScreenRoute.route)
+        delay(500)
+        navController.navigate(ScreenRoute.LoginScreenRoute.route)
     }
     Box(
         contentAlignment = Alignment.Center,
