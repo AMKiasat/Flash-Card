@@ -1,20 +1,24 @@
 package com.example.flashcard.activities
 
-import android.widget.TimePicker
-import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.Button
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.flashcard.CARDS_LIST
+import com.example.flashcard.CATEGORY_LIST
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.objects.WordCard
 
@@ -75,6 +79,54 @@ fun AddWordActivity(navController: NavController) {
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
+        val options = ArrayList<String>()
+        if (CATEGORY_LIST.size > 0) {
+        for (i in CATEGORY_LIST)
+            options.add(i.name)
+        var expanded by remember { mutableStateOf(false) }
+        var selectedText by remember { mutableStateOf("") }
+        var textFieldSize by remember { mutableStateOf(Size.Zero) }
+
+        val icon = if (expanded)
+            Icons.Filled.KeyboardArrowUp
+        else
+            Icons.Filled.KeyboardArrowDown
+
+
+        OutlinedTextField(
+            value = selectedText,
+            onValueChange = {
+                selectedText = it
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    //This value is used to assign to the DropDown the same width
+                    textFieldSize = coordinates.size.toSize()
+                },
+            label = { Text("Add to category") },
+            trailingIcon = {
+                Icon(icon, "contentDescription",
+                    Modifier.clickable { expanded = !expanded })
+            }
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+        ) {
+            options.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedText = label
+                    expanded = false
+                }) {
+                    Text(text = label)
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        }
         Button(
             onClick = {
                 val card = WordCard()

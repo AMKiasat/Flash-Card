@@ -13,6 +13,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.objects.NavigationItem
@@ -23,11 +24,13 @@ fun BottomNavigationBar(navController: NavController) {
         NavigationItem.Home,
         NavigationItem.Categories
     )
+    val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.cardview_light_background),
         elevation = 5.dp
     ) {
         items.forEach { item ->
+            val selected = item.route == backStackEntry.value?.destination?.route
             BottomNavigationItem(
                 icon = {
                     Column(
@@ -44,10 +47,9 @@ fun BottomNavigationBar(navController: NavController) {
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(0.4f),
                 alwaysShowLabel = true,
-                selected = false,
+                selected = selected,
                 onClick = {
                     navController.navigate(item.route)
-//                    navController.navigate(ScreenRoute.CategoryScreenRoute.route)
                 }
             )
         }
