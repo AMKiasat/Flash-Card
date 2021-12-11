@@ -1,5 +1,8 @@
 package com.example.flashcard.activities
 
+import AppPref
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -12,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.example.flashcard.R
@@ -19,25 +23,14 @@ import com.example.flashcard.ScreenRoute
 import kotlinx.coroutines.delay
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun StartActivity(navController: NavController) {
-    var scale = remember {
+    val scale = remember {
         Animatable(0f)
 
     }
 
-    LaunchedEffect(key1 = true) {
-        scale.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(
-                durationMillis = 500,
-                easing = LinearEasing
-
-            )
-        )
-        delay(500)
-        navController.navigate(ScreenRoute.LoginScreenRoute.route)
-    }
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -51,5 +44,37 @@ fun StartActivity(navController: NavController) {
         )
     }
 
+    val pref = AppPref(context = LocalContext.current)
+
+    LaunchedEffect(key1 = true) {
+        scale.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 500,
+                easing = LinearEasing
+
+            )
+        )
+        delay(500)
+
+        val status = checkLogin(pref)
+        if (status) {
+            navController.navigate(ScreenRoute.WordScreenRoute.route)
+        } else {
+            navController.navigate(ScreenRoute.LoginScreenRoute.route)
+        }
+    }
+
 
 }
+
+suspend fun checkLogin(appPref: AppPref): Boolean {
+
+    val username = appPref.getString(AppPref.USERNAME)
+    Log.d("YOYOYOY", "checkLogin: ${username}")
+    return username != null
+
+
+}
+
+
