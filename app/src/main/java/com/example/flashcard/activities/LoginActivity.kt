@@ -1,5 +1,8 @@
 package com.example.flashcard.activities
 
+import AppPref
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -10,11 +13,14 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun LoginActivity(navController: NavController) {
 
@@ -74,7 +80,7 @@ fun LoginActivity(navController: NavController) {
         val buttonModifier = Modifier.offset(y = (x_offset.value * 200).roundToInt().dp)
         Button(
             onClick = {
-                navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+                navController.navigate(ScreenRoute.WordScreenRoute.route)
             },
             modifier = buttonModifier.fillMaxWidth(0.3f)
         ) {
@@ -83,6 +89,21 @@ fun LoginActivity(navController: NavController) {
 
 
     }
+
+    val context = LocalContext.current
+
+    val pref = AppPref(context = context)
+    val scope = rememberCoroutineScope()
+
+    scope.launch {
+        loginAndSave(username = username, password = password , pref)
+    }
+
+}
+
+suspend fun loginAndSave(username: String, password: String, pref: AppPref) {
+    pref.putString(AppPref.USERNAME , username)
+    pref.putString(AppPref.PASSWORD , password)
 
 }
 
