@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.flash_button_gradient.ui.theme.color1
-import com.example.flash_button_gradient.ui.theme.color2
+import com.example.flashcard.ui.theme.gradiant_color1
+import com.example.flashcard.ui.theme.gradiant_color2
 
 @Composable
 fun GradientButton(
@@ -45,7 +45,7 @@ fun GradientButton(
 @Preview
 @Composable
 fun ButtonPreview(){
-    GradientButton(text = "Button", textColor = Color.White, gradient = Brush.linearGradient(colors = listOf(color1,color2)) ) {
+    GradientButton(text = "Button", textColor = Color.White, gradient = Brush.linearGradient(colors = listOf(gradiant_color1,gradiant_color2)) ) {
     // call this GradientButton in an activity to show the button, just copy the code!
         //add these two colors to the color file
         //val color1 = Color(0xFF2A1BBB)
