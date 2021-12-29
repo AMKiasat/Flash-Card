@@ -22,6 +22,7 @@ sealed class ScreenRoute(val route: String) {
     object WordScreenRoute : ScreenRoute("word_screen")
     object CategoryScreenRoute : ScreenRoute("category_screen")
     object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
+    object SearchScreenRoute : ScreenRoute("Search_screen")
 }
 
 @ExperimentalFoundationApi
@@ -47,6 +48,9 @@ fun Navigation() {
         }
         composable(route = ScreenRoute.AddCategoryScreenRoute.route) {
             AddCategoryActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.SearchScreenRoute.route) {
+            SearchActivity(navController = navController)
         }
     }
 }
