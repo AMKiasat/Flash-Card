@@ -18,7 +18,7 @@ sealed class ScreenRoute(val route: String) {
     object LoginScreenRoute : ScreenRoute("login_screen")
 
     object AddWordScreenRoute : ScreenRoute("add_word_screen")
-
+    object SplashImageRoute :ScreenRoute("splash_image")
     object WordScreenRoute : ScreenRoute("word_screen")
     object CategoryScreenRoute : ScreenRoute("category_screen")
     object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
@@ -29,7 +29,11 @@ sealed class ScreenRoute(val route: String) {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ScreenRoute.StartScreenRoute.route) {
+    NavHost(navController = navController, startDestination = ScreenRoute.SplashImageRoute.route) {
+        composable(ScreenRoute.SplashImageRoute.route ){
+            SplashImage(navController = navController)
+
+        }
 
         composable(route = ScreenRoute.StartScreenRoute.route) {
             StartActivity(navController = navController)
