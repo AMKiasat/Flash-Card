@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.flashcard.CARDS_LIST
 import com.example.flashcard.CATEGORY_LIST
+import com.example.flashcard.SELECTED_CATEGORY
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.objects.WordCard
 
@@ -133,7 +134,8 @@ fun AddWordActivity(navController: NavController) {
                 card.word = text
                 card.remembertime = selectedOption
                 CARDS_LIST.add(card)
-                navController.navigate(ScreenRoute.WordScreenRoute.route)
+                SELECTED_CATEGORY.cards_list.add(card)
+                navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route)
             },
             modifier = Modifier.align(Alignment.End)
         ) {
