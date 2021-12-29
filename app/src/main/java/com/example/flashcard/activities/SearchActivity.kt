@@ -91,30 +91,3 @@ fun SearchBar(
         }
     }
 }
-
-@Composable
-fun searchList(query: String) {
-    val listToSearch = if(isSearchStarting) {
-        pokemonList.value
-    } else {
-        cachedPokemonList
-    }
-    viewModelScope.launch(Dispatchers.Default) {
-        if(query.isEmpty()) {
-            pokemonList.value = cachedPokemonList
-            isSearching.value = false
-            isSearchStarting = true
-            return@launch
-        }
-        val results = listToSearch.filter {
-            it.pokemonName.contains(query.trim(), ignoreCase = true) ||
-                    it.number.toString() == query.trim()
-        }
-        if(isSearchStarting) {
-            cachedPokemonList = pokemonList.value
-            isSearchStarting = false
-        }
-        pokemonList.value = results
-        isSearching.value = true
-    }
-}

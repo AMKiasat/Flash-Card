@@ -11,18 +11,19 @@ import com.example.flashcard.objects.WordCard
 
 val CARDS_LIST = ArrayList<WordCard>()
 val CATEGORY_LIST = ArrayList<CategoryCard>()
+var SELECTED_CATEGORY = CategoryCard()
 
 
 sealed class ScreenRoute(val route: String) {
     object StartScreenRoute : ScreenRoute("start_screen")
     object LoginScreenRoute : ScreenRoute("login_screen")
-
     object AddWordScreenRoute : ScreenRoute("add_word_screen")
-    object SplashImageRoute :ScreenRoute("splash_image")
+    object SplashImageRoute : ScreenRoute("splash_image")
     object WordScreenRoute : ScreenRoute("word_screen")
     object CategoryScreenRoute : ScreenRoute("category_screen")
     object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
-    object SearchScreenRoute : ScreenRoute("Search_screen")
+    object SearchScreenRoute : ScreenRoute("search_screen")
+    object InsideCategoryScreenRoute : ScreenRoute("inside_category_screen")
 }
 
 @ExperimentalFoundationApi
@@ -30,11 +31,9 @@ sealed class ScreenRoute(val route: String) {
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = ScreenRoute.SplashImageRoute.route) {
-        composable(ScreenRoute.SplashImageRoute.route ){
+        composable(ScreenRoute.SplashImageRoute.route) {
             SplashImage(navController = navController)
-
         }
-
         composable(route = ScreenRoute.StartScreenRoute.route) {
             StartActivity(navController = navController)
         }
@@ -55,6 +54,9 @@ fun Navigation() {
         }
         composable(route = ScreenRoute.SearchScreenRoute.route) {
             SearchActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.InsideCategoryScreenRoute.route) {
+            InsideCategoryActivity(navController = navController)
         }
     }
 }
