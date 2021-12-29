@@ -1,28 +1,32 @@
 package com.example.flashcard.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.flashcard.SELECTED_CATEGORY
+import com.example.flashcard.ScreenRoute
 import com.example.flashcard.objects.CategoryCard
 
 @ExperimentalFoundationApi
 @Composable
 fun CategoryCardListBox(
     modifier: Modifier = Modifier,
-    cards_list: ArrayList<CategoryCard>
+    category_list: ArrayList<CategoryCard>,
+    navController: NavController
 ) {
     LazyColumn() {
 
-        items(cards_list.size) {
-            val the_card = cards_list.get(it)
+        items(category_list.size) {
+            val the_card = category_list.get(it)
             CategoryCard(
-                modifier = modifier,
+                modifier = modifier.clickable {
+                    SELECTED_CATEGORY = the_card
+                    navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route)
+                },
                 painter = painterResource(id = the_card.painter_id),
                 title = the_card.name
             )
