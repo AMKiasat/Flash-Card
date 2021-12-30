@@ -11,8 +11,10 @@ private val Context.myDataStore: DataStore<Preferences> by preferencesDataStore(
 class AppPref(private val context: Context) {
 
     companion object {
+        // put your settings or configs here
         val USERNAME = "username"
         val PASSWORD = "password"
+        val DARK_MODE = false
     }
 
 
