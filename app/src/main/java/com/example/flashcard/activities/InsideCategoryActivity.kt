@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
+import com.example.flashcard.components.CategoryTopBar
 import com.example.flashcard.components.WordCardListBox
 import com.example.flashcard.localDatabase.WordViewModel
 
@@ -28,7 +29,7 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
         WordViewModel(LocalContext.current.applicationContext as Application).get_related_words(
             category_name
         )
-    Scaffold(topBar = { },
+    Scaffold(topBar = { CategoryTopBar(navController= navController, name= category_name) },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(ScreenRoute.AddWordScreenRoute.route + "/$category_name") }
@@ -36,7 +37,7 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
                 Icon(Icons.Filled.Add, "")
             }
         },
-        bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
+        bottomBar = { }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             WordCardListBox(live_cards_list = wordCardList)
         }
