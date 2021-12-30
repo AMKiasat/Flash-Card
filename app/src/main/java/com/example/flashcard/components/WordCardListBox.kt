@@ -5,18 +5,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.flashcard.objects.WordCard
-
+import androidx.lifecycle.LiveData
+import com.example.flashcard.R
+import com.example.flashcard.localDatabase.WordCard
+import androidx.compose.runtime.livedata.observeAsState
 
 @ExperimentalFoundationApi
 @Composable
 fun WordCardListBox(
     modifier: Modifier = Modifier,
-    cards_list: ArrayList<WordCard>
+    live_cards_list: LiveData<List<WordCard>>
 ) {
+
+    val cards_list by live_cards_list.observeAsState(initial = emptyList())
 
 
     LazyVerticalGrid(
@@ -29,7 +34,7 @@ fun WordCardListBox(
             val the_card = cards_list.get(it)
             WordCard(
                 modifier = modifier.padding(10.dp),
-                painter = painterResource(id = the_card.painter_id),
+                painter = painterResource(id = R.drawable.start_now),
                 title = the_card.word
             )
         }

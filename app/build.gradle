@@ -88,6 +88,9 @@ dependencies {
     // Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha08"
     implementation "com.google.accompanist:accompanist-permissions:0.21.1-beta"
+    implementation("androidx.compose.runtime:runtime:1.1.0-rc01")
+    implementation("androidx.compose.runtime:runtime-livedata:1.1.0-rc01")
+    implementation("androidx.compose.runtime:runtime-rxjava2:1.1.0-rc01")
 //     Coroutines
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'

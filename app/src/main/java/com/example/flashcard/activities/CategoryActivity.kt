@@ -1,5 +1,6 @@
 package com.example.flashcard.activities
 
+import android.app.Application
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -10,15 +11,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.example.flashcard.CATEGORY_LIST
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.components.CategoryCardListBox
+import com.example.flashcard.localDatabase.CategoryCardViewModel
 
 @ExperimentalFoundationApi
 @Composable
 fun CategoryActivity(navController: NavController) {
-
+    val viewModel = CategoryCardViewModel(LocalContext.current.applicationContext as Application)
+    val categoryList = viewModel.getAll()
     Scaffold(topBar = { },
         floatingActionButton = {
             FloatingActionButton(
@@ -29,7 +32,7 @@ fun CategoryActivity(navController: NavController) {
         },
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            CategoryCardListBox(category_list = CATEGORY_LIST,navController = navController)
+            CategoryCardListBox(live_category_list = categoryList, navController = navController)
         }
     }
 

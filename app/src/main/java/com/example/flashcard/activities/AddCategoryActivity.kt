@@ -1,5 +1,6 @@
 package com.example.flashcard.activities
 
+import android.app.Application
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -7,16 +8,17 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.flashcard.CARDS_LIST
-import com.example.flashcard.CATEGORY_LIST
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.objects.CategoryCard
-import com.example.flashcard.objects.WordCard
+import com.example.flashcard.localDatabase.CategoryCard
+import com.example.flashcard.localDatabase.CategoryCardViewModel
 
 @Composable
 fun AddCategoryActivity(navController: NavController) {
+    val viewModel = CategoryCardViewModel(LocalContext.current.applicationContext as Application)
+
     var text by remember {
         mutableStateOf("")
     }
@@ -41,9 +43,8 @@ fun AddCategoryActivity(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                val categoryCard = CategoryCard()
-                categoryCard.name = text
-                CATEGORY_LIST.add(categoryCard)
+                val categoryCard = CategoryCard(word = text, id = null)
+                viewModel.addCategory(categoryCard)
                 navController.navigate(ScreenRoute.CategoryScreenRoute.route)
             },
             modifier = Modifier.align(Alignment.End)

@@ -28,7 +28,7 @@ fun SplashImage(navController: NavController) {
         scale.animateTo(targetValue = 0.3f, animationSpec = tween(durationMillis = 500, easing = {
             OvershootInterpolator(2f).getInterpolation(it)
         }))
-        delay(5000)
+        delay(500)
         navController.navigate(ScreenRoute.CategoryScreenRoute.route)
     }
     Box(

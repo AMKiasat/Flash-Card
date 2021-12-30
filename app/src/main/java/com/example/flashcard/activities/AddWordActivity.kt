@@ -1,5 +1,6 @@
 package com.example.flashcard.activities
 
+import android.app.Application
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -12,20 +13,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
-import com.example.flashcard.CARDS_LIST
-import com.example.flashcard.CATEGORY_LIST
-import com.example.flashcard.SELECTED_CATEGORY
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.objects.WordCard
+import com.example.flashcard.localDatabase.WordCard
+import com.example.flashcard.localDatabase.WordViewModel
 
 
 @Composable
-fun AddWordActivity(navController: NavController) {
+fun AddWordActivity(navController: NavController, category_name: String? = "all") {
+    val viewModel = WordViewModel(LocalContext.current.applicationContext as Application)
+
     var text by remember {
         mutableStateOf("")
     }
@@ -80,62 +82,71 @@ fun AddWordActivity(navController: NavController) {
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
+
+
         val options = ArrayList<String>()
-        if (CATEGORY_LIST.size > 0) {
-        for (i in CATEGORY_LIST)
-            options.add(i.name)
-        var expanded by remember { mutableStateOf(false) }
-        var selectedText by remember { mutableStateOf("") }
-        var textFieldSize by remember { mutableStateOf(Size.Zero) }
+//        if (CATEGORY_LIST.size > 0) {
+//            for (i in CATEGORY_LIST)
+//                options.add(i.name)
+//            var expanded by remember { mutableStateOf(false) }
+//            var selectedText by remember { mutableStateOf("") }
+//            var textFieldSize by remember { mutableStateOf(Size.Zero) }
+//
+//            val icon = if (expanded)
+//                Icons.Filled.KeyboardArrowUp
+//            else
+//                Icons.Filled.KeyboardArrowDown
+//
+//
+//            OutlinedTextField(
+//                value = selectedText,
+//                onValueChange = {
+//                    selectedText = it
+//                },
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .onGloballyPositioned { coordinates ->
+//                        //This value is used to assign to the DropDown the same width
+//                        textFieldSize = coordinates.size.toSize()
+//                    },
+//                label = { Text("Add to category") },
+//                trailingIcon = {
+//                    Icon(icon, "contentDescription",
+//                        Modifier.clickable { expanded = !expanded })
+//                }
+//            )
+//            DropdownMenu(
+//                expanded = expanded,
+//                onDismissRequest = { expanded = false },
+//                modifier = Modifier
+//                    .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+//            ) {
+//                options.forEach { label ->
+//                    DropdownMenuItem(onClick = {
+//                        selectedText = label
+//                        expanded = false
+//                    }) {
+//                        Text(text = label)
+//                    }
+//                }
+//            }
+//            Spacer(modifier = Modifier.height(8.dp))
+//        }
 
-        val icon = if (expanded)
-            Icons.Filled.KeyboardArrowUp
-        else
-            Icons.Filled.KeyboardArrowDown
 
 
-        OutlinedTextField(
-            value = selectedText,
-            onValueChange = {
-                selectedText = it
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    //This value is used to assign to the DropDown the same width
-                    textFieldSize = coordinates.size.toSize()
-                },
-            label = { Text("Add to category") },
-            trailingIcon = {
-                Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
-            }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-        ) {
-            options.forEach { label ->
-                DropdownMenuItem(onClick = {
-                    selectedText = label
-                    expanded = false
-                }) {
-                    Text(text = label)
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        }
+
+
+
         Button(
             onClick = {
-                val card = WordCard()
-                card.word = text
-                card.remembertime = selectedOption
-                CARDS_LIST.add(card)
-                SELECTED_CATEGORY.cards_list.add(card)
-                navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route)
+                val card = WordCard(
+                    word = text, remembertime = selectedOption,
+                    category = category_name, definition = "asd", id = null, pic_location = null
+                )
+
+                viewModel.addWord(card)
+                navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route+"/$category_name")
             },
             modifier = Modifier.align(Alignment.End)
         ) {
