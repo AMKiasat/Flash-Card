@@ -24,10 +24,10 @@ sealed class ScreenRoute(val route: String) {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ScreenRoute.SplashImageRoute.route) {
-        composable(ScreenRoute.SplashImageRoute.route) {
-            SplashImage(navController = navController)
-        }
+    NavHost(navController = navController, startDestination = ScreenRoute.StartScreenRoute.route) {
+//        composable(ScreenRoute.SplashImageRoute.route) {
+//            SplashImage(navController = navController)
+//        }
         composable(route = ScreenRoute.StartScreenRoute.route) {
             StartActivity(navController = navController)
         }
