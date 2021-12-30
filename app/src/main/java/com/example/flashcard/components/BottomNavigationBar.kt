@@ -22,7 +22,8 @@ import com.example.flashcard.objects.NavigationItem
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         NavigationItem.Home,
-        NavigationItem.Categories
+        NavigationItem.Categories,
+        NavigationItem.Search
     )
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
