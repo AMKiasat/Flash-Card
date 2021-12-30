@@ -38,7 +38,7 @@ fun StartActivity(navController: NavController) {
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.start_now),
+            painter = painterResource(id = R.drawable.splashimage),
             contentDescription = "asd",
             modifier = Modifier.scale(scale.value)
         )
