@@ -1,6 +1,7 @@
 package com.example.flashcard.activities
 
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -19,6 +20,8 @@ import com.example.flashcard.localDatabase.CategoryCardViewModel
 fun AddCategoryActivity(navController: NavController) {
     val viewModel = CategoryCardViewModel(LocalContext.current.applicationContext as Application)
 
+    val context = LocalContext.current
+
     var text by remember {
         mutableStateOf("")
     }
@@ -31,6 +34,8 @@ fun AddCategoryActivity(navController: NavController) {
     ) {
         TextField(
             value = text,
+            maxLines = 1,
+            singleLine = true,
             onValueChange = {
                 text = it
             },
@@ -43,9 +48,13 @@ fun AddCategoryActivity(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                val categoryCard = CategoryCard(word = text, id = null)
-                viewModel.addCategory(categoryCard)
-                navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+                if (text == "") {
+                    Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
+                } else {
+                    val categoryCard = CategoryCard(word = text, id = null)
+                    viewModel.addCategory(categoryCard)
+                    navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+                }
             },
             modifier = Modifier.align(Alignment.End)
         ) {

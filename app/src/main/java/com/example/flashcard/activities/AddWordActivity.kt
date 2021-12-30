@@ -1,9 +1,12 @@
 package com.example.flashcard.activities
 
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -15,6 +18,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
@@ -28,6 +32,8 @@ import com.example.flashcard.localDatabase.WordViewModel
 fun AddWordActivity(navController: NavController, category_name: String? = "all") {
     val viewModel = WordViewModel(LocalContext.current.applicationContext as Application)
 
+    val context = LocalContext.current
+
     var text by remember {
         mutableStateOf("")
     }
@@ -40,6 +46,8 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
     ) {
         TextField(
             value = text,
+            maxLines = 1,
+            singleLine = true,
             onValueChange = {
                 text = it
             },
@@ -134,19 +142,19 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
 //        }
 
 
-
-
-
-
         Button(
             onClick = {
-                val card = WordCard(
-                    word = text, remembertime = selectedOption,
-                    category = category_name, definition = "asd", id = null, pic_location = null
-                )
+                if (text == "") {
+                    Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
+                } else {
+                    val card = WordCard(
+                        word = text, remembertime = selectedOption,
+                        category = category_name, definition = "asd", id = null, pic_location = null
+                    )
 
-                viewModel.addWord(card)
-                navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route+"/$category_name")
+                    viewModel.addWord(card)
+                    navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/$category_name")
+                }
             },
             modifier = Modifier.align(Alignment.End)
         ) {
