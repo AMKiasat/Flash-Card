@@ -15,15 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.flashcard.R
-import com.example.flashcard.ScreenRoute
-import com.example.flashcard.objects.NavigationItem
+import com.example.flashcard.NavigationBarItems
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        NavigationItem.Home,
-        NavigationItem.Categories,
-        NavigationItem.Search
+        NavigationBarItems.Home,
+        NavigationBarItems.Categories,
+        NavigationBarItems.Search
     )
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
