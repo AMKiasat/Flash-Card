@@ -22,7 +22,7 @@ fun CategoryTopBar(navController: NavController, name: String) {
     TopAppBar(
         title = {
             Text(
-                text = "slm",
+                text = name,
                 fontSize = 20.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
