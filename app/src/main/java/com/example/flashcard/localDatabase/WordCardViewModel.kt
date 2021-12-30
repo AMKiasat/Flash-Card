@@ -1,6 +1,7 @@
 package com.example.flashcard.localDatabase
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -8,13 +9,14 @@ import kotlinx.coroutines.launch
 
 class WordViewModel(application: Application) : AndroidViewModel(application) {
 
-    val readAllData: List<WordCard>
     private val repository: WordCardRepository
+    val returnedVal: MutableLiveData<List<WordCard>> by lazy {
+        MutableLiveData<List<WordCard>>(listOf())
+    }
 
     init {
         val wordCardDao = FlashCardDatabase.getInstance(application).wordCardDao()
         repository = WordCardRepository(wordCardDao)
-        this.readAllData = repository.readAllData
     }
 
     fun addWord(todoItem: WordCard) {
@@ -23,23 +25,33 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAll(): List<WordCard> {
-
+    fun get_related_words(category_name: String): LiveData<List<WordCard>> {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.readAllData
+
+            returnedVal.postValue(repository.get_related_words_with_category(category_name))
+            Log.d("CATEGORY ITEMS", "get_related_words: ${returnedVal}")
         }
-        return repository.readAllData
+        return returnedVal
     }
 
+//    fun getAll(): List<WordCard> {
+//
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.readAllData
+//        }
+//        return repository.readAllData
+//    }
+
     fun updateWord(todoItem: WordCard) {
+
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateWord(todoItem = todoItem)
+            repository.updateWord(wordItem = todoItem)
         }
     }
 
     fun deleteWord(todoItem: WordCard) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteWord(todoItem = todoItem)
+            repository.deleteWord(wordItem = todoItem)
         }
     }
 

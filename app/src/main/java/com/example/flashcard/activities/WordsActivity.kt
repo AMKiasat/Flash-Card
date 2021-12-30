@@ -10,16 +10,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import com.example.flashcard.CARDS_LIST
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.components.WordCardListBox
+import com.example.flashcard.localDatabase.WordCard
 
 
 @ExperimentalFoundationApi
 @Composable
 fun WordsActivity(navController: NavController) {
-
+    val returnedVal: MutableLiveData<List<WordCard>> by lazy {
+        MutableLiveData<List<WordCard>>(listOf())
+    }
     Scaffold(topBar = { },
         floatingActionButton = {
             FloatingActionButton(
@@ -30,7 +33,7 @@ fun WordsActivity(navController: NavController) {
         },
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            WordCardListBox(cards_list = CARDS_LIST)
+            WordCardListBox(live_cards_list = returnedVal)
         }
     }
 

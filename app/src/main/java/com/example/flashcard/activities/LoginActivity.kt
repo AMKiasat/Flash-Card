@@ -2,7 +2,6 @@ package com.example.flashcard.activities
 
 import AppPref
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -58,7 +57,7 @@ fun LoginActivity(navController: NavController) {
 
         val usernameModifier = Modifier.offset(x = (x_offset.value * -100).roundToInt().dp)
         Text(text = "username", modifier = usernameModifier)
-        TextField(value = username,modifier = usernameModifier, onValueChange = {
+        TextField(value = username, modifier = usernameModifier, onValueChange = {
             username = it
         }, singleLine = true)
 
@@ -96,14 +95,14 @@ fun LoginActivity(navController: NavController) {
     val scope = rememberCoroutineScope()
 
     scope.launch {
-        loginAndSave(username = username, password = password , pref)
+        loginAndSave(username = username, password = password, pref)
     }
 
 }
 
 suspend fun loginAndSave(username: String, password: String, pref: AppPref) {
-    pref.putString(AppPref.USERNAME , username)
-    pref.putString(AppPref.PASSWORD , password)
+    pref.putString(AppPref.USERNAME, username)
+    pref.putString(AppPref.PASSWORD, password)
 
 }
 

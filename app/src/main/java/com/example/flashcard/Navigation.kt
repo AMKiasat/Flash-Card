@@ -6,12 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.flashcard.activities.*
-import com.example.flashcard.objects.CategoryCard
-import com.example.flashcard.objects.WordCard
-
-val CARDS_LIST = ArrayList<WordCard>()
-val CATEGORY_LIST = ArrayList<CategoryCard>()
-var SELECTED_CATEGORY = CategoryCard()
 
 
 sealed class ScreenRoute(val route: String) {
@@ -43,8 +37,9 @@ fun Navigation() {
         composable(route = ScreenRoute.WordScreenRoute.route) {
             WordsActivity(navController = navController)
         }
-        composable(route = ScreenRoute.AddWordScreenRoute.route) {
-            AddWordActivity(navController = navController)
+        composable(route = ScreenRoute.AddWordScreenRoute.route + "/{category_name}") { navBackStack ->
+            val category_name = navBackStack.arguments?.getString("category_name")
+            AddWordActivity(navController = navController, category_name = category_name)
         }
         composable(route = ScreenRoute.CategoryScreenRoute.route) {
             CategoryActivity(navController = navController)
@@ -55,8 +50,9 @@ fun Navigation() {
         composable(route = ScreenRoute.SearchScreenRoute.route) {
             SearchActivity(navController = navController)
         }
-        composable(route = ScreenRoute.InsideCategoryScreenRoute.route) {
-            InsideCategoryActivity(navController = navController)
+        composable(route = ScreenRoute.InsideCategoryScreenRoute.route+"/{category_name}") { navBackStack ->
+            val category_name = navBackStack.arguments?.getString("category_name")
+            InsideCategoryActivity(navController = navController ,category_name)
         }
     }
 }
