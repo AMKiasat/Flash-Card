@@ -18,6 +18,7 @@ sealed class ScreenRoute(val route: String) {
     object AddCategoryScreenRoute : ScreenRoute("add_category_screen")
     object SearchScreenRoute : ScreenRoute("search_screen")
     object InsideCategoryScreenRoute : ScreenRoute("inside_category_screen")
+    object AnalysisScreenRoute : ScreenRoute("analysis_screen")
 }
 
 @ExperimentalFoundationApi
@@ -49,6 +50,9 @@ fun Navigation() {
         }
         composable(route = ScreenRoute.SearchScreenRoute.route) {
             SearchActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.AnalysisScreenRoute.route) {
+            AnalysisActivity(navController = navController)
         }
         composable(route = ScreenRoute.InsideCategoryScreenRoute.route+"/{category_name}") { navBackStack ->
             val category_name = navBackStack.arguments?.getString("category_name")
