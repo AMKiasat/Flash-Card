@@ -35,7 +35,7 @@ fun WordsActivity(navController: NavController) {
         },
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            WordCardListBox(live_cards_list = returnedVal)
+            WordCardListBox(live_cards_list = returnedVal ,navController = navController)
         }
     }
 

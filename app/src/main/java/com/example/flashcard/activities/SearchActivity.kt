@@ -59,7 +59,7 @@ fun SearchActivity(navController: NavController) {
                 Spacer(modifier = Modifier.padding(8.dp))
                 Text(text = "Words Found:")
             }
-            WordCardListBox(live_cards_list = returnedVal) /*TODO: use the functions commented instead*/
+            WordCardListBox(live_cards_list = returnedVal ,navController = navController)
         }
     }
 
