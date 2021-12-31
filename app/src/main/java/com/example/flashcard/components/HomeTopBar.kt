@@ -7,28 +7,28 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.flashcard.HomeMoreOptionItems
-import com.example.flashcard.MoreOptionItems
+import com.example.flashcard.*
 import com.example.flashcard.R
-import com.example.flashcard.ScreenRoute
 
 @Composable
 fun HomeTopBar(navController: NavController) {
 
     var expanded by remember { mutableStateOf(false) }
-    val items = listOf(
-        HomeMoreOptionItems.Settings,
-        HomeMoreOptionItems.ContactUs
-    )
+    val context =LocalContext.current.applicationContext
+    var title by remember {
+        mutableStateOf("Flashcards")
+    }
+
     TopAppBar(
         title = {
             Text(
-                text = "Flashcards +",
+                text = title,
                 fontSize = 20.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -41,8 +41,22 @@ fun HomeTopBar(navController: NavController) {
                     contentDescription = "Menu"
                 )
             }
+
+        }, actions = {
+            IconButton(onClick = {
+                syncStore(context = context)
+
+            }) {
+                Icon(
+                    painterResource(id = MoreOptionItems.Sync.icon),
+                    contentDescription = MoreOptionItems.Sync.title
+                )
+            }
         }
     )
+
+
+
     DropdownMenu(
         modifier = Modifier.sizeIn(minWidth = 150.dp),
         expanded = expanded,
@@ -54,12 +68,12 @@ fun HomeTopBar(navController: NavController) {
         }) {
             Row() {
                 Icon(
-                    painterResource(id = items[0].icon),
-                    contentDescription = items[0].title
+                    painterResource(id = HomeMoreOptionItems.Settings.icon),
+                    contentDescription = HomeMoreOptionItems.Settings.title
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
-                    text = items[0].title,
+                    text = HomeMoreOptionItems.Settings.title,
                     maxLines = 1
                 )
                 Spacer(modifier = Modifier.size(8.dp))
@@ -71,12 +85,12 @@ fun HomeTopBar(navController: NavController) {
         }) {
             Row() {
                 Icon(
-                    painterResource(id = items[1].icon),
-                    contentDescription = items[1].title
+                    painterResource(id = HomeMoreOptionItems.ContactUs.icon),
+                    contentDescription = HomeMoreOptionItems.ContactUs.title
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
-                    text = items[1].title,
+                    text = HomeMoreOptionItems.ContactUs.title,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
             }
