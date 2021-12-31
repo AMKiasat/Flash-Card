@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -22,6 +23,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            NotificationExpand()
+            build_task(LocalContext.current)
             val permissionsState = rememberMultiplePermissionsState(
                 permissions = listOf(
                     Manifest.permission.CAMERA,
@@ -29,6 +32,8 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                     Manifest.permission.INTERNET,
                     Manifest.permission.MANAGE_MEDIA,
+                    Manifest.permission.ACCESS_NOTIFICATION_POLICY,
+                    Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE,
                 )
 
             )
