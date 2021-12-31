@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun CategoryCardListBox(
     modifier: Modifier = Modifier,
-    live_category_list: LiveData<List<CategoryCard>>,
+    live_category_list: LiveData<List<CategoryEntity>>,
     navController: NavController
 ) {
 

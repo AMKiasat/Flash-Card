@@ -13,12 +13,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.localDatabase.CategoryCard
-import com.example.flashcard.localDatabase.CategoryCardViewModel
+import com.example.flashcard.localDatabase.CategoryEntity
+import com.example.flashcard.localDatabase.CategoryEntityViewModel
 
 @Composable
 fun AddCategoryActivity(navController: NavController) {
-    val viewModel = CategoryCardViewModel(LocalContext.current.applicationContext as Application)
+    val viewModel = CategoryEntityViewModel(LocalContext.current.applicationContext as Application)
 
     val context = LocalContext.current
 
@@ -51,7 +51,7 @@ fun AddCategoryActivity(navController: NavController) {
                 if (text == "") {
                     Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
                 } else {
-                    val categoryCard = CategoryCard(word = text, id = null)
+                    val categoryCard = CategoryEntity(word = text, id = null)
                     viewModel.addCategory(categoryCard)
                     navController.navigate(ScreenRoute.CategoryScreenRoute.route)
                 }

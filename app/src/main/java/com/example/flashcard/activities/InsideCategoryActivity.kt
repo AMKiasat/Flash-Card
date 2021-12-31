@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.components.CategoryTopBar
 import com.example.flashcard.components.WordCardListBox
-import com.example.flashcard.localDatabase.WordViewModel
+import com.example.flashcard.localDatabase.WordEntityViewModel
 
 
 @ExperimentalFoundationApi
@@ -26,7 +26,7 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
     Log.d("CHECK_NAV", "InsideCategoryActivity: ${category_name}")
     val category_name = if (category_name != null) category_name else "all"
     var wordCardList =
-        WordViewModel(LocalContext.current.applicationContext as Application).get_related_words(
+        WordEntityViewModel(LocalContext.current.applicationContext as Application).getRelatedWords(
             category_name
         )
     Scaffold(topBar = { CategoryTopBar(navController= navController, name= category_name) },

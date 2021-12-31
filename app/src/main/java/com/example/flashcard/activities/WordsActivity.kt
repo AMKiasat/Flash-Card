@@ -14,14 +14,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.components.WordCardListBox
-import com.example.flashcard.localDatabase.WordCard
+import com.example.flashcard.localDatabase.WordEntity
 
 
 @ExperimentalFoundationApi
 @Composable
 fun WordsActivity(navController: NavController) {
-    val returnedVal: MutableLiveData<List<WordCard>> by lazy {
-        MutableLiveData<List<WordCard>>(listOf())
+    val returnedVal: MutableLiveData<List<WordEntity>> by lazy {
+        MutableLiveData<List<WordEntity>>(listOf())
     }
     Scaffold(topBar = { },
         floatingActionButton = {

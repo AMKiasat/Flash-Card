@@ -98,5 +98,7 @@ dependencies {
 //     Coroutine Lifecycle Scopes
 //    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 //    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-
+    // work manager
+    def  work_version = "2.7.1"
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 }
