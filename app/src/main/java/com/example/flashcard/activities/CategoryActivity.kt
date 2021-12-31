@@ -15,12 +15,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.components.CategoryCardListBox
-import com.example.flashcard.localDatabase.CategoryCardViewModel
+import com.example.flashcard.localDatabase.CategoryEntityViewModel
 
 @ExperimentalFoundationApi
 @Composable
 fun CategoryActivity(navController: NavController) {
-    val viewModel = CategoryCardViewModel(LocalContext.current.applicationContext as Application)
+    val viewModel = CategoryEntityViewModel(LocalContext.current.applicationContext as Application)
     val categoryList = viewModel.getAll()
     Scaffold(topBar = { },
         floatingActionButton = {

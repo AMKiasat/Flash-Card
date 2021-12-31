@@ -22,6 +22,8 @@ data class WordEntity(
     @ColumnInfo(defaultValue = "all") val category: String?,
     @ColumnInfo val lastRememberTime: String,
     @ColumnInfo val rememberType: String,
+    @ColumnInfo val rememberCount: Int,
+    @ColumnInfo val learned: Boolean,
 
 
     )

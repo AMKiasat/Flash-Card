@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 
 @Composable
 fun AddWordActivity(navController: NavController, category_name: String? = "all") {
-    val viewModel = WordViewModel(LocalContext.current.applicationContext as Application)
+    val viewModel = WordEntityViewModel(LocalContext.current.applicationContext as Application)
 
     val context = LocalContext.current
 
@@ -147,7 +147,10 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
                         category = category_name,
                         definition = "asd",
                         id = null,
-                        pic_location = null
+                        pic_location = null,
+                        rememberCount = 0,
+                        learned = false
+
                     )
 
                     viewModel.addWord(card)

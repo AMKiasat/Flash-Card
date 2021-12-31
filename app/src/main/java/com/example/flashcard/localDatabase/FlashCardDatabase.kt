@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [WordEntity::class , CategoryCard::class], version = 1, exportSchema = false)
+@Database(entities = [WordEntity::class , CategoryEntity::class], version = 1, exportSchema = false)
 abstract class FlashCardDatabase : RoomDatabase() {
     abstract fun wordCardDao(): WordEntityDao
-    abstract fun categoryCardDao(): CategoryCardDAO
+    abstract fun categoryCardDao(): CategoryEntityDAO
 
     companion object {
 

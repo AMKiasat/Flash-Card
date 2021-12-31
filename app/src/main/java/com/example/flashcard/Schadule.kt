@@ -1,13 +1,11 @@
 package com.example.flashcard
 
-import android.app.Application
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.work.*
 import com.example.flashcard.localDatabase.FlashCardDatabase
 import com.example.flashcard.localDatabase.WordCardRepository
-import com.example.flashcard.localDatabase.WordViewModel
 import java.util.concurrent.TimeUnit
 
 fun checkALlWordsToNotify(context: Context) {
