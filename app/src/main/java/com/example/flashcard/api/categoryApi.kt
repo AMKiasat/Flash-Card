@@ -4,8 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flashcard.api.ApiService
-import com.example.flashcard.api.WordApi
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,7 +23,7 @@ interface CategoryApiService {
     suspend fun getMovies(): List<CategoryApi>
 
     @POST("category")
-    suspend fun setWords(@Body wordList: List<CategoryApi>):String
+    suspend fun setWords(@Body wordList: List<CategoryApi>): String
 
     companion object {
         var apiService: CategoryApiService? = null
@@ -43,15 +41,15 @@ interface CategoryApiService {
 }
 
 class CategoryApiViewModel : ViewModel() {
-    var categoryListResponse: List<CategoryApi> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
+    var returned = mutableListOf<CategoryApi>()
+
     fun getCategoryList() {
         viewModelScope.launch {
             val apiService = CategoryApiService.getInstance()
             try {
-                val movieList = apiService.getMovies()
-                categoryListResponse = movieList
-                Log.d("wordApiList", "onCreate: $movieList")
+                returned = apiService.getMovies() as MutableList<CategoryApi>
+                Log.d("wordApiList", "onCreate: $returned")
             } catch (e: Exception) {
                 errorMessage = e.message.toString()
                 Log.d("wordApiListERROR", "getWordList:$errorMessage ")
@@ -59,7 +57,7 @@ class CategoryApiViewModel : ViewModel() {
         }
     }
 
-    fun storeCategoryList(wordList: List<CategoryApi>){
+    fun storeCategoryList(wordList: List<CategoryApi>) {
         viewModelScope.launch {
             val apiService = CategoryApiService.getInstance()
             try {
@@ -67,8 +65,7 @@ class CategoryApiViewModel : ViewModel() {
                 apiService.setWords(wordList = wordList)
                 Log.d("wordApiList", "send succses")
 
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 errorMessage = e.message.toString()
                 Log.d("wordApiListERROR", "$errorMessage ")
             }

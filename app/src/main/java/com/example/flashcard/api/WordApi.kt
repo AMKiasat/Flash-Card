@@ -6,10 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -28,21 +29,29 @@ data class WordApi(
     val learned: Boolean,
 )
 
+class Temp(
+    @SerializedName("kir")
+    @Expose
+    var docor: List<WordApi>
+)
+
 
 interface ApiService {
 
     @GET("word")
-    suspend fun getMovies() : List<WordApi>
+    suspend fun getWords(): List<WordApi>
 
     @POST("word")
-    suspend fun setWords(@Body wordList: List<WordApi>):String
+    suspend fun setWords(@Body wordList: List<WordApi>): List<WordApi>
 
     companion object {
         var apiService: ApiService? = null
-        fun getInstance() : ApiService {
+        fun getInstance(): ApiService {
             if (apiService == null) {
                 apiService = Retrofit.Builder()
                     .baseUrl("https://flash-card-flash-card.fandogh.cloud/")
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(ApiService::class.java)
             }
@@ -53,25 +62,28 @@ interface ApiService {
 }
 
 class WordApiViewModel : ViewModel() {
-    var movieListResponse:List<WordApi> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
+    var returned =mutableListOf<WordApi>()
 
     fun getWordList() {
+        val apiService = ApiService.getInstance()
         viewModelScope.launch {
-            val apiService = ApiService.getInstance()
             try {
-                val movieList = apiService.getMovies()
-                movieListResponse = movieList
-                Log.d("wordApiList", "onCreate: $movieList")
-            }
-            catch (e: Exception) {
+                returned = apiService.getWords() as MutableList<WordApi>
+
+                Log.d("XXXXX", "onCreate: $returned")
+
+            } catch (e: Exception) {
                 errorMessage = e.message.toString()
                 Log.d("wordApiListERROR", "getWordList:$errorMessage ")
             }
         }
     }
 
-    fun storeWordList(wordList: List<WordApi>){
+
+
+
+    fun storeWordList(wordList: List<WordApi>) {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
             try {
@@ -79,8 +91,7 @@ class WordApiViewModel : ViewModel() {
                 apiService.setWords(wordList = wordList)
                 Log.d("wordApiList", "send succses")
 
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 errorMessage = e.message.toString()
                 Log.d("wordApiListERROR", "$errorMessage ")
             }

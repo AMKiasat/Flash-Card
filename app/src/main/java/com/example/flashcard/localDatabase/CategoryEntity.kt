@@ -24,7 +24,7 @@ interface CategoryEntityDAO {
 
 
     @Insert
-    suspend fun insert(item: CategoryEntity)
+    fun insert(item: CategoryEntity)
 
     @Delete
     suspend fun delete(user: CategoryEntity)
@@ -34,7 +34,7 @@ interface CategoryEntityDAO {
 class CategoryCardRepository(private val wordEntityDatabaseDao: CategoryEntityDAO) {
 
 
-    suspend fun addCategory(wordItem: CategoryEntity) {
+    fun addCategory(wordItem: CategoryEntity) {
         wordEntityDatabaseDao.insert(wordItem)
     }
 
