@@ -1,5 +1,6 @@
 package com.example.flashcard
 
+import CategoryApi
 import CategoryApiViewModel
 import android.content.Context
 import com.example.flashcard.api.WordApi
@@ -20,6 +21,14 @@ fun syncStore(context: Context) {
     val wordEntityList = wordRep.getAll()
     val wordApiList = mutableListOf<WordApi>()
 
+
+    val categoryEntityList = categoryRep.getAll()
+    val categoryApiList = mutableListOf<CategoryApi>()
+
+
+
+
+
     wordEntityList.forEach {
         wordApiList += WordApi(
             id = it.id,
@@ -34,7 +43,15 @@ fun syncStore(context: Context) {
         )
     }
 
+    categoryEntityList.forEach {
+        categoryApiList += CategoryApi(
+            id = it.id,
+            word = it.word
+        )
+    }
+
     wordApi.storeWordList(wordApiList)
+    categoryApi.storeCategoryList(categoryApiList)
 
 
 }
