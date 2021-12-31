@@ -11,14 +11,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import com.example.flashcard.R
-import com.example.flashcard.localDatabase.WordCard
+import com.example.flashcard.localDatabase.WordEntity
 import androidx.compose.runtime.livedata.observeAsState
 
 @ExperimentalFoundationApi
 @Composable
 fun WordCardListBox(
     modifier: Modifier = Modifier,
-    live_cards_list: LiveData<List<WordCard>>
+    live_cards_list: LiveData<List<WordEntity>>
 ) {
 
     val cards_list by live_cards_list.observeAsState(initial = emptyList())

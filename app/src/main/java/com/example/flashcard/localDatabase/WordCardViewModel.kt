@@ -10,16 +10,16 @@ import kotlinx.coroutines.launch
 class WordViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: WordCardRepository
-    val relatedToCategoryWord: MutableLiveData<List<WordCard>> by lazy {
-        MutableLiveData<List<WordCard>>(listOf())
+    val relatedToCategoryWord: MutableLiveData<List<WordEntity>> by lazy {
+        MutableLiveData<List<WordEntity>>(listOf())
     }
 
-    val allWord: MutableLiveData<List<WordCard>> by lazy {
-        MutableLiveData<List<WordCard>>(listOf())
+    val allWord: MutableLiveData<List<WordEntity>> by lazy {
+        MutableLiveData<List<WordEntity>>(listOf())
     }
 
-    val notifWords: MutableLiveData<List<WordCard>> by lazy {
-        MutableLiveData<List<WordCard>>(listOf())
+    val notifWords: MutableLiveData<List<WordEntity>> by lazy {
+        MutableLiveData<List<WordEntity>>(listOf())
     }
 
     init {
@@ -27,13 +27,13 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         repository = WordCardRepository(wordCardDao)
     }
 
-    fun addWord(todoItem: WordCard) {
+    fun addWord(todoItem: WordEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addWord(todoItem)
         }
     }
 
-    fun getRelatedWords(category_name: String): LiveData<List<WordCard>> {
+    fun getRelatedWords(category_name: String): LiveData<List<WordEntity>> {
         viewModelScope.launch(Dispatchers.IO) {
 
             relatedToCategoryWord.postValue(repository.getRelatedWordsWithCategory(category_name))
@@ -43,7 +43,7 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun getWordsToNotify(): LiveData<List<WordCard>> {
+    fun getWordsToNotify(): LiveData<List<WordEntity>> {
 
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -53,7 +53,7 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         return notifWords
     }
 
-    fun getAll(): LiveData<List<WordCard>> {
+    fun getAll(): LiveData<List<WordEntity>> {
 
         viewModelScope.launch(Dispatchers.IO) {
             allWord.postValue(repository.getAll())
@@ -61,14 +61,14 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         return allWord
     }
 
-    fun updateWord(todoItem: WordCard) {
+    fun updateWord(todoItem: WordEntity) {
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateWord(wordItem = todoItem)
         }
     }
 
-    fun deleteWord(todoItem: WordCard) {
+    fun deleteWord(todoItem: WordEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteWord(wordItem = todoItem)
         }

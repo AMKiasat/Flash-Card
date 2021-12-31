@@ -2,29 +2,18 @@ package com.example.flashcard.activities
 
 import android.app.Application
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.localDatabase.WordCard
+import com.example.flashcard.localDatabase.WordEntity
 import com.example.flashcard.localDatabase.WordViewModel
 
 
@@ -147,7 +136,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
                 if (text == "") {
                     Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
                 } else {
-                    val card = WordCard(
+                    val card = WordEntity(
                         word = text, remembertime = selectedOption,
                         category = category_name, definition = "asd", id = null, pic_location = null
                     )
