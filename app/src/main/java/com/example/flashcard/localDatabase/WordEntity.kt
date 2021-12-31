@@ -14,7 +14,7 @@ data class WordEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int?,
+    var id: Int?,
 
     @ColumnInfo val pic_location: String?,
     @ColumnInfo val word: String,

@@ -6,19 +6,21 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.localDatabase.WordEntity
-import androidx.compose.runtime.livedata.observeAsState
 
 @ExperimentalFoundationApi
 @Composable
 fun WordCardListBox(
     modifier: Modifier = Modifier,
-    live_cards_list: LiveData<List<WordEntity>>
+    live_cards_list: LiveData<List<WordEntity>>,
+    navController: NavController
 ) {
 
     val cards_list by live_cards_list.observeAsState(initial = emptyList())
@@ -34,7 +36,8 @@ fun WordCardListBox(
             WordCard(
                 modifier = modifier.padding(10.dp),
                 painter = painterResource(id = R.drawable.start_now),
-                title = the_card.word
+                wordEntity = the_card,
+                navController=navController
             )
         }
     }

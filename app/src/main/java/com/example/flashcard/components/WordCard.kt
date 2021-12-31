@@ -1,6 +1,12 @@
 package com.example.flashcard.components
 
-import androidx.compose.animation.core.*
+import android.app.Activity
+import android.app.Application
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,24 +22,40 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColor
+import androidx.navigation.NavController
 import com.example.flashcard.R
-import kotlinx.coroutines.delay
+import com.example.flashcard.ScreenRoute
+import com.example.flashcard.localDatabase.WordEntity
+import com.example.flashcard.localDatabase.WordEntityViewModel
 import kotlin.math.roundToInt
 
 @Composable
 fun WordCard(
     painter: Painter,
-    title: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    wordEntity: WordEntity,
+    navController: NavController
 ) {
+    var context = LocalContext.current.applicationContext
+    val wordEntityViewModel = WordEntityViewModel(context as Application)
+    var baseOffset by remember {
+        mutableStateOf(0)
+    }
+    modifier.offset(baseOffset.dp)
+
+
     var x_offset = remember {
         Animatable(1f)
+    }
+
+    var show = remember {
+        mutableStateOf(true)
     }
 
     LaunchedEffect(key1 = true) {
@@ -58,7 +80,7 @@ fun WordCard(
         Box(modifier = Modifier.height(200.dp)) {
             Image(
                 painter = painter,
-                contentDescription = title,
+                contentDescription = wordEntity.word,
                 contentScale = ContentScale.Crop
             )
 
@@ -90,22 +112,37 @@ fun WordCard(
 
                     Text(
                         modifier = modifier.sizeIn(maxWidth = 120.dp),
-                        text = title,
+                        text = wordEntity.word,
                         style = TextStyle(color = Color.White, fontSize = 16.sp),
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
                     Box(modifier = modifier
                         .padding(1.dp)
-                        .clickable { /*TODO: Delete Word function*/ }) {
+                        .clickable {
+                            wordEntityViewModel.deleteWord(wordEntity)
+                            navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/${wordEntity.category}")
+//                            clickState.value +=1
+                        }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_white),
                             contentDescription = "Delete Word",
                             tint = Color.White
-                            )
+                        )
                     }
                 }
             }
         }
+
     }
+}
+
+
+fun Context.findActivity(): Activity? {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    return null
 }
