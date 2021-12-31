@@ -26,13 +26,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-//            var wordApiList = apiModel.movieListResponse
-//            Log.d("wordApiList", "onCreate: $wordApiList")
-//            NotificationExpand()
-//            checkALlWordsToNotify(LocalContext.current.applicationContext)
-
-
-
             val permissionsState = rememberMultiplePermissionsState(
                 permissions = listOf(
                     Manifest.permission.CAMERA,

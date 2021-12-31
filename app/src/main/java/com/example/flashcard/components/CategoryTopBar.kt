@@ -34,7 +34,7 @@ fun CategoryTopBar(navController: NavController, name: String) {
     var expanded by remember { mutableStateOf(false) }
     val items = listOf(
         MoreOptionItems.Delete,
-        MoreOptionItems.Sync
+//        MoreOptionItems.Sync
     )
 
     TopAppBar(
@@ -64,15 +64,15 @@ fun CategoryTopBar(navController: NavController, name: String) {
                     contentDescription = items[0].title
                 )
             }
-            IconButton(onClick = {
-//                expanded = true
-                /*TODO: Sync Function*/
-            }) {
-                Icon(
-                    painterResource(id = items[1].icon),
-                    contentDescription = items[1].title
-                )
-            }
+//            IconButton(onClick = {
+////                expanded = true
+//                /*TODO: Sync Function*/
+//            }) {
+//                Icon(
+//                    painterResource(id = items[1].icon),
+//                    contentDescription = items[1].title
+//                )
+//            }
         }
     )
 //    DropdownMenu(
