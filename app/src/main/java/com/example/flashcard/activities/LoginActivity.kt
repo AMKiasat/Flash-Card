@@ -79,7 +79,7 @@ fun LoginActivity(navController: NavController) {
         val buttonModifier = Modifier.offset(y = (x_offset.value * 200).roundToInt().dp)
         Button(
             onClick = {
-                navController.navigate(ScreenRoute.WordScreenRoute.route)
+                navController.navigate(ScreenRoute.HomeScreenRoute.route)
             },
             modifier = buttonModifier.fillMaxWidth(0.3f)
         ) {

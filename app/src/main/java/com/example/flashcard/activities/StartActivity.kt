@@ -59,7 +59,7 @@ fun StartActivity(navController: NavController) {
 
         val status = checkLogin(pref)
         if (status) {
-            navController.navigate(ScreenRoute.WordScreenRoute.route)
+            navController.navigate(ScreenRoute.HomeScreenRoute.route)
         } else {
             navController.navigate(ScreenRoute.LoginScreenRoute.route)
         }

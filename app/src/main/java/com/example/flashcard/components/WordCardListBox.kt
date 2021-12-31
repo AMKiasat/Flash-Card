@@ -23,7 +23,6 @@ fun WordCardListBox(
 
     val cards_list by live_cards_list.observeAsState(initial = emptyList())
 
-
     LazyVerticalGrid(
 
         cells = GridCells.Fixed(2),
