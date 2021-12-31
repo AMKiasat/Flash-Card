@@ -3,9 +3,11 @@ package com.example.flashcard.components
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,9 +16,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColor
+import com.example.flashcard.R
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -30,7 +36,7 @@ fun WordCard(
         Animatable(1f)
     }
 
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         x_offset.animateTo(
             targetValue = 0f,
             animationSpec = tween(
@@ -45,7 +51,7 @@ fun WordCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .offset(x= (x_offset.value * -100).roundToInt().dp),
+            .offset(x = (x_offset.value * -100).roundToInt().dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
     ) {
@@ -55,6 +61,7 @@ fun WordCard(
                 contentDescription = title,
                 contentScale = ContentScale.Crop
             )
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -71,11 +78,33 @@ fun WordCard(
             )
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp),
+                    .fillMaxSize(),
                 contentAlignment = Alignment.BottomStart
             ) {
-                Text(text = title, style = TextStyle(color = Color.White, fontSize = 16.sp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+
+                    Text(
+                        modifier = modifier.sizeIn(maxWidth = 120.dp),
+                        text = title,
+                        style = TextStyle(color = Color.White, fontSize = 16.sp),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
+                    Box(modifier = modifier
+                        .padding(1.dp)
+                        .clickable { /*TODO: Delete Category function*/ }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_delete_white),
+                            contentDescription = "Delete Word",
+                            tint = Color.White
+                            )
+                    }
+                }
             }
         }
     }
