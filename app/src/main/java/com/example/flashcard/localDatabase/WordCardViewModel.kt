@@ -10,7 +10,15 @@ import kotlinx.coroutines.launch
 class WordViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: WordCardRepository
-    val returnedVal: MutableLiveData<List<WordCard>> by lazy {
+    val relatedToCategoryWord: MutableLiveData<List<WordCard>> by lazy {
+        MutableLiveData<List<WordCard>>(listOf())
+    }
+
+    val allWord: MutableLiveData<List<WordCard>> by lazy {
+        MutableLiveData<List<WordCard>>(listOf())
+    }
+
+    val notifWords: MutableLiveData<List<WordCard>> by lazy {
         MutableLiveData<List<WordCard>>(listOf())
     }
 
@@ -25,22 +33,33 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun get_related_words(category_name: String): LiveData<List<WordCard>> {
+    fun getRelatedWords(category_name: String): LiveData<List<WordCard>> {
         viewModelScope.launch(Dispatchers.IO) {
 
-            returnedVal.postValue(repository.get_related_words_with_category(category_name))
-            Log.d("CATEGORY ITEMS", "get_related_words: ${returnedVal}")
+            relatedToCategoryWord.postValue(repository.getRelatedWordsWithCategory(category_name))
+            Log.d("CATEGORY ITEMS", "get_related_words: ${relatedToCategoryWord}")
         }
-        return returnedVal
+        return relatedToCategoryWord
     }
 
-//    fun getAll(): List<WordCard> {
-//
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.readAllData
-//        }
-//        return repository.readAllData
-//    }
+
+    fun getWordsToNotify(): LiveData<List<WordCard>> {
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            notifWords.postValue(repository.getWordsToNotify())
+            Log.d("NOTIF WORDS", "get_words_to_notify: ${notifWords}")
+        }
+        return notifWords
+    }
+
+    fun getAll(): LiveData<List<WordCard>> {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            allWord.postValue(repository.getAll())
+        }
+        return allWord
+    }
 
     fun updateWord(todoItem: WordCard) {
 

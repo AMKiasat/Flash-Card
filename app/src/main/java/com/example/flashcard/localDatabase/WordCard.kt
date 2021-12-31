@@ -22,6 +22,8 @@ data class WordCard(
 
 @Dao
 interface WordCardDao {
+
+
     @Query("SELECT * FROM wordcard")
     fun getAll(): List<WordCard>
 
@@ -32,9 +34,8 @@ interface WordCardDao {
     @Query("SELECT * FROM wordcard WHERE category=(:category_name)")
     fun get_related_words_with_category(category_name: String): List<WordCard>
 
-//    example
-//    @Query("SELECT * FROM wordcard WHERE first_name LIKE :first AND last_name LIKE :last LIMIT 1")
-//    fun findByName(first: String, last: String): WordCard
+    @Query("SELECT * FROM wordcard WHERE remembertime < TIME() ")
+    fun get_words_to_notify(): List<WordCard>
 
 
     @Insert
@@ -53,14 +54,21 @@ interface WordCardDao {
 
 class WordCardRepository(private val wordCardDatabaseDao: WordCardDao) {
 
-//    val readAllData: List<WordCard> = wordCardDatabaseDao.getAll()
 
     suspend fun addWord(wordItem: WordCard) {
         wordCardDatabaseDao.insert(wordItem)
     }
 
-    fun get_related_words_with_category(category: String): List<WordCard> {
+    fun getRelatedWordsWithCategory(category: String): List<WordCard> {
         return wordCardDatabaseDao.get_related_words_with_category(category_name = category)
+    }
+
+    fun getAll(): List<WordCard> {
+        return wordCardDatabaseDao.getAll()
+    }
+
+    fun getWordsToNotify(): List<WordCard> {
+        return wordCardDatabaseDao.get_words_to_notify()
     }
 
     suspend fun updateWord(wordItem: WordCard) {

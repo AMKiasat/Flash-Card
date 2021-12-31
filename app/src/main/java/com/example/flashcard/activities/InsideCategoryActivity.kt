@@ -26,7 +26,7 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
     Log.d("CHECK_NAV", "InsideCategoryActivity: ${category_name}")
     val category_name = if (category_name != null) category_name else "all"
     var wordCardList =
-        WordViewModel(LocalContext.current.applicationContext as Application).get_related_words(
+        WordViewModel(LocalContext.current.applicationContext as Application).getRelatedWords(
             category_name
         )
     Scaffold(topBar = { CategoryTopBar(navController= navController, name= category_name) },
