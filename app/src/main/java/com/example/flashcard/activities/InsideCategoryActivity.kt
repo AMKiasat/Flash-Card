@@ -29,7 +29,7 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
         WordEntityViewModel(LocalContext.current.applicationContext as Application).getRelatedWords(
             category_name
         )
-    Scaffold(topBar = { CategoryTopBar(navController= navController, name= category_name) },
+    Scaffold(topBar = { CategoryTopBar(navController = navController, name = category_name) },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(ScreenRoute.AddWordScreenRoute.route + "/$category_name") }
@@ -39,7 +39,7 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
         },
         bottomBar = { }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            WordCardListBox(live_cards_list = wordCardList)
+            WordCardListBox(live_cards_list = wordCardList, navController = navController)
         }
     }
 

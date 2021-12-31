@@ -20,6 +20,8 @@ import com.example.flashcard.localDatabase.WordEntity
 @ExperimentalFoundationApi
 @Composable
 fun WordsActivity(navController: NavController) {
+
+
     val returnedVal: MutableLiveData<List<WordEntity>> by lazy {
         MutableLiveData<List<WordEntity>>(listOf())
     }
@@ -33,7 +35,7 @@ fun WordsActivity(navController: NavController) {
         },
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            WordCardListBox(live_cards_list = returnedVal)
+            WordCardListBox(live_cards_list = returnedVal ,navController = navController)
         }
     }
 

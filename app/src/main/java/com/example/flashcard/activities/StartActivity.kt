@@ -9,9 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -20,12 +18,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
+import com.example.flashcard.build_task
 import kotlinx.coroutines.delay
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun StartActivity(navController: NavController) {
+    var isBuilt by remember { mutableStateOf(false) }
+
+    if (!isBuilt) {
+        build_task(LocalContext.current.applicationContext)
+        isBuilt = true
+    }
+
+
     val scale = remember {
         Animatable(0f)
 

@@ -1,7 +1,10 @@
 package com.example.flashcard.activities
 
 import AppPref
+import LoginApiViewModel
+import LoginData
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -23,6 +26,8 @@ import kotlin.math.roundToInt
 @Composable
 fun LoginActivity(navController: NavController) {
 
+    val apiModel = LoginApiViewModel()
+
     var username by remember {
         mutableStateOf("")
     }
@@ -30,10 +35,16 @@ fun LoginActivity(navController: NavController) {
         mutableStateOf("")
     }
 
+    var message by remember {
+        mutableStateOf("")
+    }
+
 
     val x_offset = remember {
         Animatable(1f)
     }
+
+    val appContext = LocalContext.current
 
     LaunchedEffect(key1 = true) {
         x_offset.animateTo(
@@ -79,12 +90,24 @@ fun LoginActivity(navController: NavController) {
         val buttonModifier = Modifier.offset(y = (x_offset.value * 200).roundToInt().dp)
         Button(
             onClick = {
-                navController.navigate(ScreenRoute.HomeScreenRoute.route)
+                apiModel.checkLogin(LoginData(username,password))
+                val status = apiModel.status
+                if (status == "200"){
+
+                    navController.navigate(ScreenRoute.HomeScreenRoute.route)
+
+                }
+
+                message= "wrong credential!"
+
+
             },
             modifier = buttonModifier.fillMaxWidth(0.3f)
         ) {
             Text(text = "sign in ")
         }
+
+        Text(text = message)
 
 
     }
@@ -94,6 +117,8 @@ fun LoginActivity(navController: NavController) {
     val pref = AppPref(context = context)
     val scope = rememberCoroutineScope()
 
+
+
     scope.launch {
         loginAndSave(username = username, password = password, pref)
     }
@@ -101,6 +126,8 @@ fun LoginActivity(navController: NavController) {
 }
 
 suspend fun loginAndSave(username: String, password: String, pref: AppPref) {
+
+    Log.d("LOGIN", "loginAndSave: $username $password")
     pref.putString(AppPref.USERNAME, username)
     pref.putString(AppPref.PASSWORD, password)
 
