@@ -48,8 +48,19 @@ fun HomeTopBar(navController: NavController) {
 
             }) {
                 Icon(
-                    painterResource(id = MoreOptionItems.Sync.icon),
-                    contentDescription = MoreOptionItems.Sync.title
+                    painterResource(id = MoreOptionItems.Upload.icon),
+                    contentDescription = MoreOptionItems.Upload.title
+                )
+            }
+
+
+            IconButton(onClick = {
+                syncLoad(context = context)
+
+            }) {
+                Icon(
+                    painterResource(id = MoreOptionItems.Download.icon),
+                    contentDescription = MoreOptionItems.Download.title
                 )
             }
         }

@@ -48,7 +48,7 @@ interface WordEntityDao {
 
 
     @Insert
-    suspend fun insert(item: WordEntity)
+    fun insert(item: WordEntity)
 
     @Delete
     suspend fun delete(user: WordEntity)
@@ -64,7 +64,7 @@ interface WordEntityDao {
 class WordCardRepository(private val wordEntityDatabaseDao: WordEntityDao) {
 
 
-    suspend fun addWord(wordItem: WordEntity) {
+    fun addWord(wordItem: WordEntity) {
         wordEntityDatabaseDao.insert(wordItem)
     }
 
