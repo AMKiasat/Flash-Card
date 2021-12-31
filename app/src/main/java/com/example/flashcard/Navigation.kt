@@ -19,6 +19,9 @@ sealed class ScreenRoute(val route: String) {
     object SearchScreenRoute : ScreenRoute("search_screen")
     object InsideCategoryScreenRoute : ScreenRoute("inside_category_screen")
     object AnalysisScreenRoute : ScreenRoute("analysis_screen")
+    object HomeScreenRoute : ScreenRoute("home_screen")
+    object ContactUsScreenRoute : ScreenRoute("contact_us_screen")
+    object SettingsScreenRoute : ScreenRoute("settings_screen")
 }
 
 @ExperimentalFoundationApi
@@ -53,6 +56,15 @@ fun Navigation() {
         }
         composable(route = ScreenRoute.AnalysisScreenRoute.route) {
             AnalysisActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.HomeScreenRoute.route) {
+            HomeActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.SettingsScreenRoute.route) {
+            SettingsActivity(navController = navController)
+        }
+        composable(route = ScreenRoute.ContactUsScreenRoute.route) {
+            ContactUsActivity(navController = navController)
         }
         composable(route = ScreenRoute.InsideCategoryScreenRoute.route+"/{category_name}") { navBackStack ->
             val category_name = navBackStack.arguments?.getString("category_name")
