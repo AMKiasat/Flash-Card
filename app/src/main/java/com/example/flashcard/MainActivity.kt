@@ -2,8 +2,10 @@ package com.example.flashcard
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -13,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.example.flashcard.localDatabase.WordViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
@@ -23,8 +26,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NotificationExpand()
-            build_task(LocalContext.current)
+
+//            NotificationExpand()
+//            checkALlWordsToNotify(LocalContext.current.applicationContext)
+            build_task(LocalContext.current.applicationContext)
             val permissionsState = rememberMultiplePermissionsState(
                 permissions = listOf(
                     Manifest.permission.CAMERA,

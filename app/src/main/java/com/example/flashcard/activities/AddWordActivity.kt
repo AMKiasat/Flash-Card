@@ -4,7 +4,10 @@ import android.app.Application
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.RadioButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,8 +16,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.localDatabase.WordEntity
-import com.example.flashcard.localDatabase.WordViewModel
+import com.example.flashcard.helpers.formatTime
+import com.example.flashcard.localDatabase.*
+import java.time.LocalDateTime
 
 
 @Composable
@@ -48,7 +52,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
         Spacer(modifier = Modifier.size(8.dp))
         Text(text = "How often do you want to remind this word ?")
         Spacer(modifier = Modifier.size(15.dp))
-        val radioOptions = listOf("Daily", "Weekly", "Monthly")
+        val radioOptions = listOf(DAILY_REMEMBER_TYPE, WEEKLY_REMEMBER_TYPE, HOURLY_REMEMBER_TYPE)
         val (selectedOption, onOptionSelected) = remember {
             mutableStateOf(radioOptions[0])
         }
@@ -81,7 +85,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
         Spacer(modifier = Modifier.height(8.dp))
 
 
-        val options = ArrayList<String>()
+//        val options = ArrayList<String>()
 //        if (CATEGORY_LIST.size > 0) {
 //            for (i in CATEGORY_LIST)
 //                options.add(i.name)
@@ -137,8 +141,13 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
                     Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
                 } else {
                     val card = WordEntity(
-                        word = text, remembertime = selectedOption,
-                        category = category_name, definition = "asd", id = null, pic_location = null
+                        word = text,
+                        lastRememberTime = formatTime(LocalDateTime.now()),
+                        rememberType = selectedOption,
+                        category = category_name,
+                        definition = "asd",
+                        id = null,
+                        pic_location = null
                     )
 
                     viewModel.addWord(card)

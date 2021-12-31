@@ -23,7 +23,7 @@ abstract class FlashCardDatabase : RoomDatabase() {
                         context.applicationContext,
                         FlashCardDatabase::class.java,
                         "flash_card_database"
-                    ).fallbackToDestructiveMigration()
+                    ).fallbackToDestructiveMigration().allowMainThreadQueries()
                         .build()
 
                     INSTANCE = instance

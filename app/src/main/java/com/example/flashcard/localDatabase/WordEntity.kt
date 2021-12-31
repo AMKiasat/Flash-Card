@@ -4,6 +4,10 @@ import androidx.room.*
 import com.example.flashcard.R
 
 val DEFAULT_WORD_CARD_PIC_ID = R.drawable.start_now
+val HOURLY_REMEMBER_TYPE = "hourly"
+val DAILY_REMEMBER_TYPE = "daily"
+val WEEKLY_REMEMBER_TYPE = "weekly"
+
 
 @Entity(tableName = "words")
 data class WordEntity(
@@ -16,8 +20,11 @@ data class WordEntity(
     @ColumnInfo val word: String,
     @ColumnInfo val definition: String,
     @ColumnInfo(defaultValue = "all") val category: String?,
-    @ColumnInfo val remembertime: String,
-)
+    @ColumnInfo val lastRememberTime: String,
+    @ColumnInfo val rememberType: String,
+
+
+    )
 
 
 @Dao
@@ -34,7 +41,7 @@ interface WordEntityDao {
     @Query("SELECT * FROM words WHERE category=(:category_name)")
     fun get_related_words_with_category(category_name: String): List<WordEntity>
 
-    @Query("SELECT * FROM words WHERE remembertime < TIME() ")
+    @Query("SELECT * FROM words WHERE lastRememberTime < TIME('now') ")
     fun get_words_to_notify(): List<WordEntity>
 
 
