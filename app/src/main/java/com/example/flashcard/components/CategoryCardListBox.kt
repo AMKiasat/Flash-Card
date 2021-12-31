@@ -21,7 +21,7 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.localDatabase.CategoryCard
+import com.example.flashcard.localDatabase.CategoryEntity
 import kotlinx.coroutines.delay
 
 @ExperimentalFoundationApi
