@@ -26,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.flashcard.MoreOptionItems
 import com.example.flashcard.R
 import com.example.flashcard.NavigationBarItems
+import com.example.flashcard.ScreenRoute
 
 @Composable
 fun CategoryTopBar(navController: NavController, name: String) {
@@ -46,7 +47,7 @@ fun CategoryTopBar(navController: NavController, name: String) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { navController.navigate(ScreenRoute.CategoryScreenRoute.route) }) {
                 Icon(
                     painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back"
@@ -55,51 +56,63 @@ fun CategoryTopBar(navController: NavController, name: String) {
         },
         actions = {
             IconButton(onClick = {
-                expanded = true
+//                expanded = true
+                /*TODO: Delete Function*/
             }) {
-                Icon(
-                    painterResource(id = R.drawable.ic_more_option),
-                    contentDescription = "More options"
-                )
-            }
-        }
-    )
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-    ) {
-        DropdownMenuItem(onClick = {
-            /*TODO*/
-            expanded = false
-        }) {
-            Row() {
                 Icon(
                     painterResource(id = items[0].icon),
                     contentDescription = items[0].title
                 )
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    text = items[0].title,
-                )
-                Spacer(modifier = Modifier.size(8.dp))
             }
-        }
-        DropdownMenuItem(onClick = {
-            /*TODO*/
-            expanded = false
-        }) {
-            Row() {
+            IconButton(onClick = {
+//                expanded = true
+                /*TODO: Sync Function*/
+            }) {
                 Icon(
                     painterResource(id = items[1].icon),
                     contentDescription = items[1].title
                 )
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    text = items[1].title,
-                )
-                Spacer(modifier = Modifier.size(8.dp))
             }
         }
-    }
+    )
+//    DropdownMenu(
+//        expanded = expanded,
+//        onDismissRequest = { expanded = false }
+//    ) {
+//        DropdownMenuItem(onClick = {
+//            /*TODO*/
+//            expanded = false
+//        }) {
+//            Row() {
+//                Icon(
+//                    painterResource(id = items[0].icon),
+//                    contentDescription = items[0].title
+//                )
+//                Spacer(modifier = Modifier.size(8.dp))
+//                Text(
+//                    text = items[0].title,
+//                    maxLines = 1
+//                )
+//                Spacer(modifier = Modifier.size(8.dp))
+//            }
+//        }
+//        DropdownMenuItem(onClick = {
+//            /*TODO*/
+//            expanded = false
+//        }) {
+//            Row() {
+//                Icon(
+//                    painterResource(id = items[1].icon),
+//                    contentDescription = items[1].title
+//                )
+//                Spacer(modifier = Modifier.size(8.dp))
+//                Text(
+//                    text = items[1].title,
+//                    maxLines = 1
+//                )
+//                Spacer(modifier = Modifier.size(8.dp))
+//            }
+//        }
+//    }
 
 }
