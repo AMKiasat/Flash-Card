@@ -97,7 +97,7 @@ fun WordCard(
                     )
                     Box(modifier = modifier
                         .padding(1.dp)
-                        .clickable { /*TODO: Delete Category function*/ }) {
+                        .clickable { /*TODO: Delete Word function*/ }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_white),
                             contentDescription = "Delete Word",
