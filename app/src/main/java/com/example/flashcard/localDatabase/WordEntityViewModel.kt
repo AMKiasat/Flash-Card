@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class WordViewModel(application: Application) : AndroidViewModel(application) {
+class WordEntityViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: WordCardRepository
     val relatedToCategoryWord: MutableLiveData<List<WordEntity>> by lazy {
@@ -86,8 +86,8 @@ class TodoViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
-        if (modelClass.isAssignableFrom(WordViewModel::class.java)) {
-            return WordViewModel(application) as T
+        if (modelClass.isAssignableFrom(WordEntityViewModel::class.java)) {
+            return WordEntityViewModel(application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

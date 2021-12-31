@@ -10,11 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CategoryCardViewModel(application: Application) : AndroidViewModel(application) {
+class CategoryEntityViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: CategoryCardRepository
-    val returnedVal: MutableLiveData<List<CategoryCard>> by lazy {
-        MutableLiveData<List<CategoryCard>>(listOf())
+    val returnedVal: MutableLiveData<List<CategoryEntity>> by lazy {
+        MutableLiveData<List<CategoryEntity>>(listOf())
     }
 
     init {
@@ -22,13 +22,13 @@ class CategoryCardViewModel(application: Application) : AndroidViewModel(applica
         repository = CategoryCardRepository(categoryCardDao)
     }
 
-    fun addCategory(todoItem: CategoryCard) {
+    fun addCategory(todoItem: CategoryEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addCategory(todoItem)
         }
     }
 
-    fun getAll(): LiveData<List<CategoryCard>> {
+    fun getAll(): LiveData<List<CategoryEntity>> {
         viewModelScope.launch(Dispatchers.IO) {
 
             returnedVal.postValue(repository.getAll())
@@ -38,7 +38,7 @@ class CategoryCardViewModel(application: Application) : AndroidViewModel(applica
     }
 
 
-    fun deleteCategory(todoItem: CategoryCard) {
+    fun deleteCategory(todoItem: CategoryEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteCategory(wordItem = todoItem)
         }

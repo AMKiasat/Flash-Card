@@ -12,13 +12,13 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
-import com.example.flashcard.localDatabase.CategoryCard
+import com.example.flashcard.localDatabase.CategoryEntity
 
 @ExperimentalFoundationApi
 @Composable
 fun CategoryCardListBox(
     modifier: Modifier = Modifier,
-    live_category_list: LiveData<List<CategoryCard>>,
+    live_category_list: LiveData<List<CategoryEntity>>,
     navController: NavController
 ) {
 
