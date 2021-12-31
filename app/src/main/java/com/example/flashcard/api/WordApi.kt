@@ -11,16 +11,17 @@ import androidx.room.PrimaryKey
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
-
-
+import retrofit2.http.POST
 
 
 data class WordApi(
-    val id: Int,
-    val pic_location: String,
+    val id: Int?,
+    val pic_location: String?,
     val word: String,
     val definition: String,
+    val category: String?,
     val lastRememberTime: String,
     val rememberType: String,
     val rememberCount: Int,
@@ -32,6 +33,9 @@ interface ApiService {
 
     @GET("word")
     suspend fun getMovies() : List<WordApi>
+
+    @POST("word")
+    suspend fun setWords(@Body wordList: List<WordApi>):String
 
     companion object {
         var apiService: ApiService? = null
@@ -51,6 +55,7 @@ interface ApiService {
 class WordApiViewModel : ViewModel() {
     var movieListResponse:List<WordApi> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
+
     fun getWordList() {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
@@ -65,4 +70,22 @@ class WordApiViewModel : ViewModel() {
             }
         }
     }
+
+    fun storeWordList(wordList: List<WordApi>){
+        viewModelScope.launch {
+            val apiService = ApiService.getInstance()
+            try {
+                Log.d("wordApiList", "sending $wordList")
+                apiService.setWords(wordList = wordList)
+                Log.d("wordApiList", "send succses")
+
+            }
+            catch (e: Exception) {
+                errorMessage = e.message.toString()
+                Log.d("wordApiListERROR", "$errorMessage ")
+            }
+        }
+
+    }
+
 }
