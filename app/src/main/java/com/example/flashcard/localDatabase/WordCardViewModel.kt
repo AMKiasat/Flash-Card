@@ -23,8 +23,8 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     init {
-        val wordCardDao = FlashCardDatabase.getInstance(application).wordCardDao()
-        repository = WordCardRepository(wordCardDao)
+        val wordEntityDao = FlashCardDatabase.getInstance(application).wordCardDao()
+        repository = WordCardRepository(wordEntityDao)
     }
 
     fun addWord(todoItem: WordEntity) {
