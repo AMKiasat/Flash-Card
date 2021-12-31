@@ -20,6 +20,8 @@ import com.example.flashcard.localDatabase.WordEntity
 @ExperimentalFoundationApi
 @Composable
 fun WordsActivity(navController: NavController) {
+
+
     val returnedVal: MutableLiveData<List<WordEntity>> by lazy {
         MutableLiveData<List<WordEntity>>(listOf())
     }

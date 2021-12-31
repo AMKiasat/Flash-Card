@@ -1,6 +1,8 @@
 package com.example.flashcard
 
 import CategoryApiViewModel
+import LoginApiViewModel
+import LoginData
 import android.Manifest
 import android.os.Bundle
 import android.util.Log
@@ -23,19 +25,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val apiModel = CategoryApiViewModel()
-            apiModel.getCategoryList()
+
 //            var wordApiList = apiModel.movieListResponse
 //            Log.d("wordApiList", "onCreate: $wordApiList")
 //            NotificationExpand()
 //            checkALlWordsToNotify(LocalContext.current.applicationContext)
 
-            var isBuilt by remember { mutableStateOf(false) }
 
-            if (!isBuilt) {
-                build_task(LocalContext.current.applicationContext)
-                isBuilt = true
-            }
 
             val permissionsState = rememberMultiplePermissionsState(
                 permissions = listOf(
