@@ -1,15 +1,18 @@
 package com.example.flashcard
 
+import CategoryApiViewModel
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.example.flashcard.api.WordApiViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
@@ -20,10 +23,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            val apiModel = CategoryApiViewModel()
+            apiModel.getCategoryList()
+//            var wordApiList = apiModel.movieListResponse
+//            Log.d("wordApiList", "onCreate: $wordApiList")
 //            NotificationExpand()
 //            checkALlWordsToNotify(LocalContext.current.applicationContext)
-            build_task(LocalContext.current.applicationContext)
+
+            var isBuilt by remember { mutableStateOf(false) }
+
+            if (!isBuilt) {
+                build_task(LocalContext.current.applicationContext)
+                isBuilt = true
+            }
+
             val permissionsState = rememberMultiplePermissionsState(
                 permissions = listOf(
                     Manifest.permission.CAMERA,
@@ -38,10 +51,10 @@ class MainActivity : ComponentActivity() {
             )
             val lifecycleOwner = LocalLifecycleOwner.current
             DisposableEffect(key1 = lifecycleOwner,
-                effect ={
-                    val observer =LifecycleEventObserver{_,event ->
+                effect = {
+                    val observer = LifecycleEventObserver { _, event ->
 
-                        if (event== Lifecycle.Event.ON_START){
+                        if (event == Lifecycle.Event.ON_START) {
                             permissionsState.launchMultiplePermissionRequest()
                         }
                     }
