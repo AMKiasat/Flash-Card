@@ -27,9 +27,20 @@ import kotlinx.coroutines.delay
 fun StartActivity(navController: NavController) {
     var isBuilt by remember { mutableStateOf(false) }
 
+    val context = LocalContext.current.applicationContext
+    val appPref = AppPref(context = context)
     if (!isBuilt) {
-        build_task(LocalContext.current.applicationContext)
-        isBuilt = true
+        LaunchedEffect(key1 = true) {
+            val haveTask = appPref.getString("taskkk")
+            Log.d("TASKBUILD", "StartActivity: $haveTask")
+            if (haveTask == null || haveTask.toBoolean() == false) {
+                appPref.putString("taskkk", "true")
+                build_task(context)
+                isBuilt = true
+            }
+        }
+
+
     }
 
 
