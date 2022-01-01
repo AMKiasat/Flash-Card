@@ -31,15 +31,9 @@ fun SplashImage(navController: NavController) {
         delay(500)
         navController.navigate(ScreenRoute.CategoryScreenRoute.route)
     }
-    Box(
-        contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.splashimage),
-            contentDescription = "Logoscreen",
-            modifier = Modifier.scale(scale.value)
-        )
-
+    val painter = painterResource(id = R.drawable.splashimage)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Background(painter = painter, contentDescription = "background")
 
     }
 }

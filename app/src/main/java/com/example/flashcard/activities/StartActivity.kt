@@ -3,6 +3,7 @@ package com.example.flashcard.activities
 import AppPref
 import android.annotation.SuppressLint
 import android.util.Log
+import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -49,17 +50,17 @@ fun StartActivity(navController: NavController) {
 
     }
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+    LaunchedEffect(key1 = true) {
+        scale.animateTo(targetValue = 0.3f, animationSpec = tween(durationMillis = 500, easing = {
+            OvershootInterpolator(2f).getInterpolation(it)
+        }))
+        delay(500)
+        navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+    }
+    val painter = painterResource(id = R.drawable.splashimage)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Background(painter = painter, contentDescription = "background")
 
-    ) {
-
-        Image(
-            painter = painterResource(id = R.drawable.splashimage),
-            contentDescription = "asd",
-            modifier = Modifier.scale(scale.value)
-        )
     }
 
     val pref = AppPref(context = LocalContext.current)
@@ -73,7 +74,7 @@ fun StartActivity(navController: NavController) {
 
             )
         )
-        delay(500)
+        delay(1000)
 
         val status = checkLogin(pref)
         if (status) {
