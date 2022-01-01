@@ -9,14 +9,17 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.flashcard.R
@@ -35,6 +38,10 @@ fun LoginActivity(navController: NavController) {
     }
     var password by remember {
         mutableStateOf("")
+    }
+
+    var passwordVisibility by remember {
+        mutableStateOf(false)
     }
 
     var message by remember {
@@ -72,18 +79,39 @@ fun LoginActivity(navController: NavController) {
         ) {
 
         val usernameModifier = Modifier.offset(x = (x_offset.value * -100).roundToInt().dp)
-        Text(text = "username", modifier = usernameModifier)
-        TextField(value = username, modifier = usernameModifier, onValueChange = {
-            username = it
-        }, singleLine = true)
-
+        TextField(value = username,
+            modifier = usernameModifier,
+            onValueChange = {
+                username = it
+            },
+            singleLine = true,
+            label = { Text("User Name") },
+        )
         Spacer(modifier = Modifier.size(8.dp))
-
         val passwordModifier = Modifier.offset(x = (x_offset.value * 100).roundToInt().dp)
-        Text(text = "password", modifier = passwordModifier)
-        TextField(value = password, modifier = passwordModifier, onValueChange = {
-            password = it
-        }, singleLine = true)
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = passwordModifier,
+            label = { Text("Password") },
+            placeholder = { Text("Password") },
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            trailingIcon = {
+                val image = if (passwordVisibility)
+                    R.drawable.ic_eye
+                else R.drawable.ic_hide
+
+                IconButton(onClick = {
+                    passwordVisibility = !passwordVisibility
+                }) {
+                    Icon(
+                        painterResource(id = image),
+                        contentDescription = "Visibility"
+                    )
+                }
+            }
+        )
 
 
         Spacer(
@@ -95,15 +123,15 @@ fun LoginActivity(navController: NavController) {
         val buttonModifier = Modifier.offset(y = (x_offset.value * 200).roundToInt().dp)
         Button(
             onClick = {
-                apiModel.checkLogin(LoginData(username,password))
+                apiModel.checkLogin(LoginData(username, password))
                 val status = apiModel.status
-                if (status == "200"){
+                if (status == "200") {
 
                     navController.navigate(ScreenRoute.HomeScreenRoute.route)
 
                 }
 
-                message= "wrong credential!"
+                message = "wrong credential!"
 
 
             },
