@@ -42,7 +42,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
     var text by remember {
         mutableStateOf("")
     }
-    val painter = painterResource(id = R.drawable.ic_background_2)
+    val painter = painterResource(id = R.drawable.ic_background_6)
     Box(modifier = Modifier.fillMaxSize()) {
         Background(painter = painter, contentDescription = "background")
 

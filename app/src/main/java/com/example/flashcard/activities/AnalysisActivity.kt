@@ -44,7 +44,7 @@ fun AnalysisActivity(navController: NavController) {
 
     Scaffold(topBar = { },
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
-        val painter = painterResource(id = R.drawable.ic_background_2)
+        val painter = painterResource(id = R.drawable.ic_background_6)
         Box(modifier = Modifier.fillMaxSize()) {
             Background(painter = painter, contentDescription = "background")
 

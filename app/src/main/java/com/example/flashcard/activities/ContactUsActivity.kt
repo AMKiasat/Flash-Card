@@ -26,7 +26,7 @@ import com.example.flashcard.components.TopBar
 fun ContactUsActivity(navController: NavController) {
     Scaffold(topBar = { TopBar(navController, "Contact us") },
         bottomBar = { }) { innerPadding ->
-        val painter = painterResource(id = R.drawable.ic_background_2)
+        val painter = painterResource(id = R.drawable.ic_background_6)
         Box(modifier = Modifier.fillMaxSize()) {
             Background(painter = painter, contentDescription = "background")
 
