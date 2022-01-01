@@ -43,7 +43,7 @@ fun SearchActivity(navController: NavController) {
     Scaffold(topBar = { },
 
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
-        val painter = painterResource(id = R.drawable.ic_background_1)
+        val painter = painterResource(id = R.drawable.ic_background_2)
         Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             Background(painter = painter, contentDescription = "background")
 

@@ -18,7 +18,7 @@ fun SettingsActivity(navController: NavController) {
     Scaffold(topBar = { TopBar(navController, "Settings") },
 
         bottomBar = {  }) { innerPadding ->
-        val painter = painterResource(id = R.drawable.ic_background_1)
+        val painter = painterResource(id = R.drawable.ic_background_2)
         Box(modifier = Modifier.fillMaxSize()) {
             Background(painter = painter, contentDescription = "background")
 
