@@ -46,6 +46,9 @@ interface WordEntityDao {
     @Query("SELECT * FROM words WHERE lastRememberTime < TIME('now') ")
     fun get_words_to_notify(): List<WordEntity>
 
+    @Query("SELECT * FROM words WHERE learned=1")
+    fun get_learned_words(): List<WordEntity>
+
 
     @Insert
     fun insert(item: WordEntity)
@@ -78,6 +81,10 @@ class WordCardRepository(private val wordEntityDatabaseDao: WordEntityDao) {
 
     fun getWordsToNotify(): List<WordEntity> {
         return wordEntityDatabaseDao.get_words_to_notify()
+    }
+
+    fun getLearnedWords(): List<WordEntity> {
+        return wordEntityDatabaseDao.get_learned_words()
     }
 
     suspend fun updateWord(wordItem: WordEntity) {
