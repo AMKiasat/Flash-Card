@@ -10,24 +10,27 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.Button
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.helpers.formatTime
 import com.example.flashcard.localDatabase.*
 import java.time.LocalDateTime
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -39,59 +42,76 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
     var text by remember {
         mutableStateOf("")
     }
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+    val painter = painterResource(id = R.drawable.ic_background_1)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Background(painter = painter, contentDescription = "background")
+
+    }
+    Card(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 50.dp)
+            .padding(horizontal = 30.dp,vertical = 170.dp),
+        shape = RoundedCornerShape(15.dp),
+        elevation = 5.dp,
+        backgroundColor = MaterialTheme.colors.surface
     ) {
-        TextField(
-            value = text,
-            maxLines = 1,
-            singleLine = true,
-            onValueChange = {
-                text = it
-            },
-            modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text("Enter your new word")
-            }
-        )
-        Spacer(modifier = Modifier.size(8.dp))
-        Text(text = "How often do you want to remind this word ?")
-        Spacer(modifier = Modifier.size(15.dp))
-        val radioOptions = listOf(DAILY_REMEMBER_TYPE, WEEKLY_REMEMBER_TYPE, HOURLY_REMEMBER_TYPE)
-        val (selectedOption, onOptionSelected) = remember {
-            mutableStateOf(radioOptions[0])
-        }
-        radioOptions.forEach { text ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+                .background(color = Color.White)
+        ) {
+            TextField(
+                value = text,
+                maxLines = 1,
+                singleLine = true,
+                onValueChange = {
+                    text = it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .selectable(
+                    .background(color = Color.White),
+                label = {
+                    Text("Enter your new word")
+                }
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(text = "How often do you want to remind this word ?")
+            Spacer(modifier = Modifier.size(15.dp))
+            val radioOptions =
+                listOf(DAILY_REMEMBER_TYPE, WEEKLY_REMEMBER_TYPE, HOURLY_REMEMBER_TYPE)
+            val (selectedOption, onOptionSelected) = remember {
+                mutableStateOf(radioOptions[0])
+            }
+            radioOptions.forEach { text ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectable(
+                            selected = (text == selectedOption),
+                            onClick = {
+                                onOptionSelected(text)
+                            }
+                        )
+                        .padding(horizontal = 10.dp)
+                ) {
+                    RadioButton(
                         selected = (text == selectedOption),
+                        modifier = Modifier.padding(all = Dp(value = 8F)),
                         onClick = {
                             onOptionSelected(text)
                         }
                     )
-                    .padding(horizontal = 10.dp)
-            ) {
-                RadioButton(
-                    selected = (text == selectedOption),
-                    modifier = Modifier.padding(all = Dp(value = 8F)),
-                    onClick = {
-                        onOptionSelected(text)
-                    }
-                )
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+                    Text(
+                        text = text,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
             }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
 
 //        val options = ArrayList<String>()
@@ -144,31 +164,32 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
 //        }
 
 
-        Button(
-            onClick = {
-                if (text == "") {
-                    Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
-                } else {
-                    val card = WordEntity(
-                        word = text,
-                        lastRememberTime = formatTime(LocalDateTime.now()),
-                        rememberType = selectedOption,
-                        category = category_name,
-                        definition = "asd",
-                        id = null,
-                        pic_location = null,
-                        rememberCount = 0,
-                        learned = false
+            Button(
+                onClick = {
+                    if (text == "") {
+                        Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val card = WordEntity(
+                            word = text,
+                            lastRememberTime = formatTime(LocalDateTime.now()),
+                            rememberType = selectedOption,
+                            category = category_name,
+                            definition = "asd",
+                            id = null,
+                            pic_location = null,
+                            rememberCount = 0,
+                            learned = false
 
-                    )
+                        )
 
-                    viewModel.addWord(card)
-                    navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/$category_name")
-                }
-            },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Add")
+                        viewModel.addWord(card)
+                        navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/$category_name")
+                    }
+                },
+                modifier = Modifier.align(Alignment.End)
+            ) {
+                Text(text = "Add")
+            }
         }
     }
 }

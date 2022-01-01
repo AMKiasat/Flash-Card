@@ -5,7 +5,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -14,10 +17,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import com.example.flashcard.R
 import com.example.flashcard.components.CategoryCardListBox
 import com.example.flashcard.components.WordCardListBox
 import com.example.flashcard.localDatabase.CategoryEntity
@@ -38,28 +43,49 @@ fun SearchActivity(navController: NavController) {
     Scaffold(topBar = { },
 
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
-        Column() {
-            Box(modifier = Modifier.padding(innerPadding)) {
-                SearchBar(
-                    hint = "Search...",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
+        val painter = painterResource(id = R.drawable.ic_background_1)
+        Box(modifier = Modifier.fillMaxSize()) {
+            Background(painter = painter, contentDescription = "background")
 
+            Column() {
+                Box(modifier = Modifier.padding(innerPadding)) {
+                    SearchBar(
+                        hint = "Search...",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+
+                    }
+                }
+                Card(
+                    shape = RoundedCornerShape(15.dp),
+                    elevation = 5.dp,
+                    backgroundColor = MaterialTheme.colors.surface
+                ) {
+                    Column() {
+
+                        Row() {
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Text(text = "Categories Found:")
+                        }
+                        CategoryCardListBox(
+                            live_category_list = categoryList,
+                            navController = navController
+                        ) /*TODO: use the functions commented instead*/
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Row() {
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Text(text = "Words Found:")
+                        }
+                        WordCardListBox(
+                            live_cards_list = returnedVal,
+                            navController = navController
+                        )
+                    }
                 }
             }
-            Row() {
-                Spacer(modifier = Modifier.padding(8.dp))
-                Text(text = "Categories Found:")
-            }
-            CategoryCardListBox(live_category_list = categoryList, navController = navController) /*TODO: use the functions commented instead*/
-            Spacer(modifier = Modifier.padding(8.dp))
-            Row() {
-                Spacer(modifier = Modifier.padding(8.dp))
-                Text(text = "Words Found:")
-            }
-            WordCardListBox(live_cards_list = returnedVal ,navController = navController)
+
         }
     }
 
