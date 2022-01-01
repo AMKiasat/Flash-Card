@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -13,7 +14,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
+import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
 import com.example.flashcard.components.CategoryTopBar
 import com.example.flashcard.components.WordCardListBox
@@ -38,8 +41,13 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
             }
         },
         bottomBar = { }) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            WordCardListBox(live_cards_list = wordCardList, navController = navController)
+        val painter = painterResource(id = R.drawable.ic_background_1)
+        Box(modifier = Modifier.fillMaxSize()) {
+            Background(painter = painter, contentDescription = "background")
+
+            Box(modifier = Modifier.padding(innerPadding)) {
+                WordCardListBox(live_cards_list = wordCardList, navController = navController)
+            }
         }
     }
 

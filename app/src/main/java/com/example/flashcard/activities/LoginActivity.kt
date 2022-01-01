@@ -16,8 +16,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -45,6 +47,9 @@ fun LoginActivity(navController: NavController) {
     }
 
     val appContext = LocalContext.current
+
+    val painter = painterResource(id = R.drawable.ic_background_1)
+
 
     LaunchedEffect(key1 = true) {
         x_offset.animateTo(
