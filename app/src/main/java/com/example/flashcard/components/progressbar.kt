@@ -47,15 +47,14 @@ fun CustomComponent(
     var allowedIndicatorValue by remember {
         mutableStateOf(maxIndicatorValue)
     }
-    allowedIndicatorValue = ((indicatorValue.toFloat()/maxIndicatorValue.toFloat())*100).toInt()
+    allowedIndicatorValue = ((indicatorValue.toFloat() / maxIndicatorValue.toFloat()) * 100).toInt()
 
     var animatedIndicatorValue by remember { mutableStateOf(0f) }
     LaunchedEffect(key1 = allowedIndicatorValue) {
         animatedIndicatorValue = allowedIndicatorValue.toFloat()
     }
 
-    val percentage =11
-//        (animatedIndicatorValue / maxIndicatorValue) * 100
+    val percentage = allowedIndicatorValue
 
     val sweepAngle by animateFloatAsState(
         targetValue = (2.4 * percentage).toFloat(),
