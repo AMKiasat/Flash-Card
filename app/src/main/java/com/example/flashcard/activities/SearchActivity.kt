@@ -25,10 +25,8 @@ import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.components.CategoryCardListBox
 import com.example.flashcard.components.WordCardListBox
-import com.example.flashcard.localDatabase.CategoryEntity
 import com.example.flashcard.localDatabase.CategoryEntityViewModel
 import com.example.flashcard.localDatabase.WordEntity
-import kotlinx.coroutines.Dispatchers
 
 @ExperimentalFoundationApi
 @Composable

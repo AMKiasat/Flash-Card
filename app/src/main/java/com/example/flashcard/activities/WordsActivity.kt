@@ -42,7 +42,7 @@ fun WordsActivity(navController: NavController) {
             Background(painter = painter, contentDescription = "background")
 
             Box(modifier = Modifier.padding(innerPadding)) {
-                WordCardListBox(live_cards_list = returnedVal ,navController = navController)
+                WordCardListBox(live_cards_list = returnedVal , navController = navController)
             }
         }
     }
