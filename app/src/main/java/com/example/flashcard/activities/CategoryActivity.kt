@@ -39,7 +39,10 @@ fun CategoryActivity(navController: NavController) {
             Background(painter = painter, contentDescription = "background")
 
             Box(modifier = Modifier.padding(innerPadding)) {
-                CategoryCardListBox(live_category_list = categoryList, navController = navController)
+                CategoryCardListBox(
+                    live_category_list = categoryList,
+                    navController = navController
+                )
             }
         }
     }

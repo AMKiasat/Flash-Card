@@ -44,7 +44,7 @@ fun SearchActivity(navController: NavController) {
 
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         val painter = painterResource(id = R.drawable.ic_background_1)
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             Background(painter = painter, contentDescription = "background")
 
             Column() {
