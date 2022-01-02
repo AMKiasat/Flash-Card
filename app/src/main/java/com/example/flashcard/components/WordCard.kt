@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
+import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -12,9 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +43,15 @@ fun WordCard(
 ) {
     var context = LocalContext.current.applicationContext
     val wordEntityViewModel = WordEntityViewModel(context as Application)
+
+    val deleteDialog = remember {
+        mutableStateOf(false)
+    }
+
+    val learningDialog = remember {
+        mutableStateOf(false)
+    }
+
     var baseOffset by remember {
         mutableStateOf(0)
     }
@@ -73,7 +81,8 @@ fun WordCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .offset(x = (x_offset.value * -100).roundToInt().dp),
+            .offset(x = (x_offset.value * -100).roundToInt().dp)
+            .clickable { learningDialog.value = true },
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
     ) {
@@ -120,8 +129,9 @@ fun WordCard(
                     Box(modifier = modifier
                         .padding(1.dp)
                         .clickable {
-                            wordEntityViewModel.deleteWord(wordEntity)
-                            navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/${wordEntity.category}")
+                            deleteDialog.value = true
+//                            wordEntityViewModel.deleteWord(wordEntity)
+//                            navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/${wordEntity.category}")
 //                            clickState.value +=1
                         }) {
                         Icon(
@@ -135,6 +145,72 @@ fun WordCard(
         }
 
     }
+    if (deleteDialog.value) {
+        AlertDialog(
+            onDismissRequest = { deleteDialog.value = false },
+            title = { Text(text = "Delete word", color = Color.Black) },
+            text = {
+                Text(text = "Are you sure you want to delete word " + wordEntity.word + "?", color = Color.Blue)
+            },
+
+            confirmButton = {
+
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                        Toast.makeText(context, wordEntity.word + " deleted.", Toast.LENGTH_SHORT).show()
+                        wordEntityViewModel.deleteWord(wordEntity)
+                        navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/${wordEntity.category}")
+                    }) {
+                    Text(text = "Yes", color = Color.Green)
+                }
+
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                    }) {
+                    Text(text = "No", color = Color.Red)
+                }
+            },
+//            backgroundColor = Color.LightGray,
+//            contentColor = Color.Blue
+        )
+    }
+
+    if (learningDialog.value) {
+        AlertDialog(
+            onDismissRequest = { learningDialog.value = false },
+            title = { Text(text = wordEntity.word + " :", color = Color.Black) },
+            text = {
+                Text(text = wordEntity.definition, color = Color.Blue)
+            },
+
+            confirmButton = {
+
+                TextButton(
+                    onClick = {
+                        learningDialog.value = false
+                        Toast.makeText(context, wordEntity.word + " learned.", Toast.LENGTH_SHORT).show()
+                        /*TODO: Changing learned value in the word.*/
+                    }) {
+                    Text(text = "Got it !", color = Color.Green)
+                }
+
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        learningDialog.value = false
+                    }) {
+                    Text(text = "Wrong :(", color = Color.Red)
+                }
+            },
+//            backgroundColor = Color.LightGray,
+//            contentColor = Color.Blue
+        )
+    }
 }
 
 
@@ -145,4 +221,46 @@ fun Context.findActivity(): Activity? {
         context = context.baseContext
     }
     return null
+}
+
+@Composable
+fun alertDialog(
+    alertmsg: String
+) {
+
+    val context = LocalContext.current
+    val openDialog = remember { mutableStateOf(true) }
+
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = { openDialog.value = false },
+            title = { Text(text = "Card's Backside", color = Color.Black) },
+            text = {
+                Text(text = alertmsg, color = Color.Blue)
+            },
+
+            confirmButton = {
+
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                        Toast.makeText(context, "WAY TO GO !", Toast.LENGTH_SHORT).show()
+                    }) {
+                    Text(text = "Got it !", color = Color.Green)
+                }
+
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                        Toast.makeText(context, "It's okay ", Toast.LENGTH_SHORT).show()
+                    }) {
+                    Text(text = "Wrong :(", color = Color.Red)
+                }
+            },
+            backgroundColor = Color.LightGray,
+            contentColor = Color.Blue
+        )
+    }
 }
