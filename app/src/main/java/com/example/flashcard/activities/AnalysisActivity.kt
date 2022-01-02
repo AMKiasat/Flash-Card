@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +52,7 @@ fun AnalysisActivity(navController: NavController) {
         }
         Card(
             modifier = Modifier
-                .padding(horizontal = 30.dp, vertical = 120.dp),
+                .padding(horizontal = 30.dp, vertical = 80.dp),
             shape = RoundedCornerShape(15.dp),
             elevation = 5.dp,
             backgroundColor = MaterialTheme.colors.surface
@@ -68,8 +69,8 @@ fun AnalysisActivity(navController: NavController) {
                     maxIndicatorValue = allWordSize
                 )
 
-                Spacer(modifier = Modifier.fillMaxWidth())
-
+                Text(text = "Learned words:")
+                Spacer(modifier = Modifier.padding(8.dp))
 
                 WordCardListBox(live_cards_list =liveLearnedWords, navController = navController)
 //                TextField(
