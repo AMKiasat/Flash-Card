@@ -1,5 +1,6 @@
 package com.example.flashcard.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,7 +33,15 @@ import com.example.flashcard.ScreenRoute
 @Composable
 fun CategoryTopBar(navController: NavController, name: String) {
 
-    var expanded by remember { mutableStateOf(false) }
+    var context = LocalContext.current.applicationContext
+
+    val deleteDialog = remember {
+        mutableStateOf(false)
+    }
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
     val items = listOf(
         MoreOptionItems.Delete,
 //        MoreOptionItems.Sync
@@ -56,7 +66,7 @@ fun CategoryTopBar(navController: NavController, name: String) {
         },
         actions = {
             IconButton(onClick = {
-//                expanded = true
+                deleteDialog.value = true
                 /*TODO: Delete Function*/
             }) {
                 Icon(
@@ -75,6 +85,42 @@ fun CategoryTopBar(navController: NavController, name: String) {
 //            }
         }
     )
+    if (deleteDialog.value) {
+        AlertDialog(
+            onDismissRequest = { deleteDialog.value = false },
+            title = { Text(text = "Delete category", color = Color.Black) },
+            text = {
+                Text(
+                    text = "Are you sure you want to delete category $name?",
+                    color = Color.Blue
+                )
+            },
+
+            confirmButton = {
+
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                        Toast.makeText(context, "category $name deleted.", Toast.LENGTH_SHORT).show()
+                        /*TODO: delete category*/
+                        navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+                    }) {
+                    Text(text = "Yes", color = Color.Green)
+                }
+
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                    }) {
+                    Text(text = "No", color = Color.Red)
+                }
+            },
+//            backgroundColor = Color.LightGray,
+//            contentColor = Color.Blue
+        )
+    }
 //    DropdownMenu(
 //        expanded = expanded,
 //        onDismissRequest = { expanded = false }

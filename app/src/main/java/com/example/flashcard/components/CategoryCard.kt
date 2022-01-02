@@ -1,6 +1,7 @@
 package com.example.flashcard.components
 
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -11,17 +12,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.flashcard.R
+import com.example.flashcard.ScreenRoute
 import kotlin.math.roundToInt
 
 //@Preview
@@ -32,10 +38,17 @@ import kotlin.math.roundToInt
 //}
 @Composable
 fun CategoryCard(
+    navController: NavController,
     painter: Painter,
     title: String,
     modifier: Modifier = Modifier
 ) {
+
+    var context = LocalContext.current.applicationContext
+
+    val deleteDialog = remember {
+        mutableStateOf(false)
+    }
 
     var x_offset = remember {
         Animatable(1f)
@@ -88,7 +101,9 @@ fun CategoryCard(
                 )
                 Box(modifier = modifier
                     .padding(15.dp)
-                    .clickable { /*TODO: Delete Category function*/ }) {
+                    .clickable {
+                        deleteDialog.value = true
+                    }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
                         contentDescription = "Delete Category"
@@ -96,5 +111,42 @@ fun CategoryCard(
                 }
             }
         }
+    }
+    if (deleteDialog.value) {
+        AlertDialog(
+            onDismissRequest = { deleteDialog.value = false },
+            title = { Text(text = "Delete category", color = Color.Black) },
+            text = {
+                Text(
+                    text = "Are you sure you want to delete category $title?",
+                    color = Color.Blue
+                )
+            },
+
+            confirmButton = {
+
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                        Toast.makeText(context, "category $title deleted.", Toast.LENGTH_SHORT)
+                            .show()
+                        /*TODO: delete category*/
+                        navController.navigate(ScreenRoute.CategoryScreenRoute.route)
+                    }) {
+                    Text(text = "Yes", color = Color.Green)
+                }
+
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                    }) {
+                    Text(text = "No", color = Color.Red)
+                }
+            },
+//            backgroundColor = Color.LightGray,
+//            contentColor = Color.Blue
+        )
     }
 }

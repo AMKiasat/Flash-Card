@@ -158,7 +158,7 @@ fun WordCard(
                 TextButton(
                     onClick = {
                         deleteDialog.value = false
-                        Toast.makeText(context, wordEntity.word + " deleted.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Word " + wordEntity.word + " deleted.", Toast.LENGTH_SHORT).show()
                         wordEntityViewModel.deleteWord(wordEntity)
                         navController.navigate(ScreenRoute.InsideCategoryScreenRoute.route + "/${wordEntity.category}")
                     }) {

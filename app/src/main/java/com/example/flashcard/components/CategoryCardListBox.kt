@@ -45,7 +45,8 @@ fun CategoryCardListBox(
                 },
 
                 painter = painterResource(id = R.drawable.start_now),
-                title = categoryObj.word
+                title = categoryObj.word,
+                navController = navController
             )
         }
     }

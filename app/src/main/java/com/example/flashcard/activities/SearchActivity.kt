@@ -57,6 +57,7 @@ fun SearchActivity(navController: NavController) {
                     }
                 }
                 Card(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
                     shape = RoundedCornerShape(15.dp),
                     elevation = 5.dp,
                     backgroundColor = MaterialTheme.colors.surface
