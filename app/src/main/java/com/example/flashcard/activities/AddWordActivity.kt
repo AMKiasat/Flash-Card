@@ -42,6 +42,11 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
     var text by remember {
         mutableStateOf("")
     }
+
+    var definition by remember {
+        mutableStateOf("")
+    }
+
     val painter = painterResource(id = R.drawable.ic_background_6)
     Box(modifier = Modifier.fillMaxSize()) {
         Background(painter = painter, contentDescription = "background")
@@ -49,7 +54,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
     }
     Card(
         modifier = Modifier
-            .padding(horizontal = 30.dp,vertical = 170.dp),
+            .padding(horizontal = 30.dp, vertical = 130.dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
         backgroundColor = MaterialTheme.colors.surface
@@ -74,7 +79,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
                     .fillMaxWidth()
                     .background(color = Color.White),
                 label = {
-                    Text("Enter your new word")
+                    Text("Word")
                 }
             )
             Spacer(modifier = Modifier.size(8.dp))
@@ -162,19 +167,34 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
 //            }
 //            Spacer(modifier = Modifier.height(8.dp))
 //        }
-
-
+            TextField(
+                value = definition,
+                maxLines = 2,
+                onValueChange = {
+                    definition = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.White),
+                label = {
+                    Text("Definition")
+                }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
                     if (text == "") {
-                        Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Enter a word", Toast.LENGTH_SHORT).show()
+                    }
+                    else if (definition == "") {
+                        Toast.makeText(context, "Enter a definition", Toast.LENGTH_SHORT).show()
                     } else {
                         val card = WordEntity(
                             word = text,
                             lastRememberTime = formatTime(LocalDateTime.now()),
                             rememberType = selectedOption,
                             category = category_name,
-                            definition = "asd",
+                            definition = definition,
                             id = null,
                             pic_location = null,
                             rememberCount = 0,
