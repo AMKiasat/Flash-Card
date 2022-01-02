@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
@@ -35,7 +36,8 @@ fun InsideCategoryActivity(navController: NavController, category_name: String?)
     Scaffold(topBar = { CategoryTopBar(navController = navController, name = category_name) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(ScreenRoute.AddWordScreenRoute.route + "/$category_name") }
+                onClick = { navController.navigate(ScreenRoute.AddWordScreenRoute.route + "/$category_name") },
+                backgroundColor = Color(255,165,0)
             ) {
                 Icon(Icons.Filled.Add, "")
             }

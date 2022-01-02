@@ -95,7 +95,7 @@ fun CategoryCard(
                     modifier = modifier.sizeIn(maxWidth = 170.dp),
                     text = title,
                     style = MaterialTheme.typography.h6,
-                    color = MaterialTheme.colors.onSurface,
+                    color = Color(255,165,0),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
@@ -106,7 +106,8 @@ fun CategoryCard(
                     }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
-                        contentDescription = "Delete Category"
+                        contentDescription = "Delete Category",
+                        tint = Color(255,165,0)
                     )
                 }
             }

@@ -2,6 +2,7 @@ package com.example.flashcard.activities
 
 import android.app.Application
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
@@ -28,7 +30,8 @@ fun CategoryActivity(navController: NavController) {
     Scaffold(topBar = { },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(ScreenRoute.AddCategoryScreenRoute.route) }
+                onClick = { navController.navigate(ScreenRoute.AddCategoryScreenRoute.route) },
+                backgroundColor = Color(255,165,0)
             ) {
                 Icon(Icons.Filled.Add, "")
             }

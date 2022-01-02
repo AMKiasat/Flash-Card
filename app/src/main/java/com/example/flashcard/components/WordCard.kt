@@ -124,7 +124,8 @@ fun WordCard(
                         text = wordEntity.word,
                         style = TextStyle(color = Color.White, fontSize = 16.sp),
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
+                        maxLines = 1,
+                        color = Color(255,165,0)
                     )
                     Box(modifier = modifier
                         .padding(1.dp)
@@ -137,7 +138,7 @@ fun WordCard(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_white),
                             contentDescription = "Delete Word",
-                            tint = Color.White
+                            tint = Color(255,165,0)
                         )
                     }
                 }

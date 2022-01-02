@@ -60,7 +60,7 @@ fun SearchActivity(navController: NavController) {
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
                     shape = RoundedCornerShape(15.dp),
                     elevation = 5.dp,
-                    backgroundColor = MaterialTheme.colors.surface
+                    backgroundColor = Color.White.copy(alpha = 0.8f)
                 ) {
                     Column() {
 
