@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -36,7 +37,7 @@ fun AddCategoryActivity(navController: NavController) {
             .padding(horizontal = 30.dp,vertical = 250.dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
-        backgroundColor = MaterialTheme.colors.surface
+        backgroundColor = Color.White.copy(alpha = 0.8f)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

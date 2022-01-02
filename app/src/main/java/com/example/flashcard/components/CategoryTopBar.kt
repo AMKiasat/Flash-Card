@@ -48,6 +48,7 @@ fun CategoryTopBar(navController: NavController, name: String) {
     )
 
     TopAppBar(
+        backgroundColor = Color(255,165,0),
         title = {
             Text(
                 text = name,

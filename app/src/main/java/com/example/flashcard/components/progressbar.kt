@@ -34,7 +34,7 @@ fun CustomComponent(
     maxIndicatorValue: Int = 100,
     backgroundIndicatorColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
     backgroundIndicatorStrokeWidth: Float = 100f,
-    foregroundIndicatorColor: Color = MaterialTheme.colors.primary,
+    foregroundIndicatorColor: Color = Color(255,165,0),
     foregroundIndicatorStrokeWidth: Float = 100f,
 //    indicatorStrokeCap: StrokeCap = StrokeCap.Round,
     bigTextFontSize: TextUnit = MaterialTheme.typography.h3.fontSize,

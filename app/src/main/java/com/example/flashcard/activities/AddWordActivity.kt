@@ -57,7 +57,8 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
             .padding(horizontal = 30.dp, vertical = 130.dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
-        backgroundColor = MaterialTheme.colors.surface
+        backgroundColor = Color.White.copy(alpha = 0.8f),
+
     ) {
 
         Column(
@@ -66,7 +67,6 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp)
-                .background(color = Color.White)
         ) {
             TextField(
                 value = text,

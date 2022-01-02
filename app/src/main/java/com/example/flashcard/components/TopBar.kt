@@ -5,6 +5,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
@@ -18,6 +19,7 @@ import com.example.flashcard.ScreenRoute
 fun TopBar(navController: NavController, name: String) {
 
     TopAppBar(
+        backgroundColor = Color(255,165,0),
         title = {
             Text(
                 text = name,

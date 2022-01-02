@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -36,7 +37,7 @@ fun ContactUsActivity(navController: NavController) {
                 .padding(horizontal = 90.dp, vertical = 230.dp),
             shape = RoundedCornerShape(15.dp),
             elevation = 5.dp,
-            backgroundColor = MaterialTheme.colors.surface
+            backgroundColor = Color.White.copy(alpha = 0.8f)
         ) {
             Column(
                 modifier = Modifier
