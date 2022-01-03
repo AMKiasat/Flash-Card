@@ -61,6 +61,7 @@ fun AddCategoryActivity(navController: NavController) {
             Spacer(modifier = Modifier.size(8.dp))
             Spacer(modifier = Modifier.height(8.dp))
             Button(
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 165, 0)),
                 onClick = {
                     if (text == "") {
                         Toast.makeText(context, "Enter some words", Toast.LENGTH_SHORT).show()

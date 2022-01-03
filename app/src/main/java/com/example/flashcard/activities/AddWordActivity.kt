@@ -182,6 +182,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
             )
             Spacer(modifier = Modifier.height(8.dp))
             Button(
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 165, 0)),
                 onClick = {
                     if (text == "") {
                         Toast.makeText(context, "Enter a word", Toast.LENGTH_SHORT).show()

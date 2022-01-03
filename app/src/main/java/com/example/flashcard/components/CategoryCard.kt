@@ -105,10 +105,7 @@ fun CategoryCard(
                 Box(modifier = modifier
                     .padding(15.dp)
                     .clickable {
-                        categoryEntityViewModel.deleteCategory(categoryEntity)
                         deleteDialog.value = true
-
-
                     }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
@@ -131,7 +128,6 @@ fun CategoryCard(
             },
 
             confirmButton = {
-
                 TextButton(
                     onClick = {
                         deleteDialog.value = false
@@ -141,7 +137,7 @@ fun CategoryCard(
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        /*TODO: delete category*/
+                        categoryEntityViewModel.deleteCategory(categoryEntity)
                         navController.navigate(ScreenRoute.CategoryScreenRoute.route)
                     }) {
                     Text(text = "Yes", color = Color.Green)

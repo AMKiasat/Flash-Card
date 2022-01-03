@@ -14,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -130,6 +131,7 @@ fun LoginActivity(navController: NavController) {
 
         val buttonModifier = Modifier.offset(y = (x_offset.value * 200).roundToInt().dp)
         Button(
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 165, 0)),
             onClick = {
                 apiModel.checkLogin(LoginData(username, password))
                 Timer("xxx", false).schedule(2000) {
