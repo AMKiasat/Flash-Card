@@ -17,16 +17,35 @@ class CategoryEntityViewModel(application: Application) : AndroidViewModel(appli
         MutableLiveData<List<CategoryEntity>>(listOf())
     }
 
+    val returnedSearch: MutableLiveData<List<CategoryEntity>> by lazy {
+        MutableLiveData<List<CategoryEntity>>(listOf())
+    }
+
+
+
+
+
     init {
         val categoryCardDao = FlashCardDatabase.getInstance(application).categoryCardDao()
         repository = CategoryCardRepository(categoryCardDao)
     }
+
+
 
     fun addCategory(todoItem: CategoryEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addCategory(todoItem)
         }
     }
+
+    fun search(searchStr:String): LiveData<List<CategoryEntity>> {
+        viewModelScope.launch(Dispatchers.IO) {
+            returnedSearch.postValue(repository.search(searchStr))
+            Log.d("CATEGORIS", "get_all: ${returnedSearch}")
+        }
+        return returnedSearch
+    }
+
 
     fun getAll(): LiveData<List<CategoryEntity>> {
         viewModelScope.launch(Dispatchers.IO) {

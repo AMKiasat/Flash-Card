@@ -34,27 +34,34 @@ interface CategoryEntityDAO {
     @Delete
     suspend fun delete(user: CategoryEntity)
 
+    @Query("SELECT * FROM categories WHERE word LIKE (:searchStr)")
+    suspend fun searchWord(searchStr: String): List<CategoryEntity>
+
 }
 
-class CategoryCardRepository(private val wordEntityDatabaseDao: CategoryEntityDAO) {
+class CategoryCardRepository(private val categoryEntityDatabaseDao: CategoryEntityDAO) {
 
 
     fun addCategory(wordItem: CategoryEntity) {
         try {
 
-            wordEntityDatabaseDao.insert(wordItem)
-        }catch (e: SQLiteConstraintException){
+            categoryEntityDatabaseDao.insert(wordItem)
+        } catch (e: SQLiteConstraintException) {
 
         }
     }
 
 
+    suspend fun search(searchStr: String): List<CategoryEntity> {
+        return categoryEntityDatabaseDao.searchWord(searchStr = searchStr)
+    }
+
     fun getAll(): List<CategoryEntity> {
-        return wordEntityDatabaseDao.getAll()
+        return categoryEntityDatabaseDao.getAll()
     }
 
     suspend fun deleteCategory(wordItem: CategoryEntity) {
-        wordEntityDatabaseDao.delete(wordItem)
+        categoryEntityDatabaseDao.delete(wordItem)
     }
 
 

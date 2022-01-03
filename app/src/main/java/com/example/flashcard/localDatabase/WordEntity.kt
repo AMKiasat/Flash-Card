@@ -67,6 +67,10 @@ interface WordEntityDao {
 
     @Query("DELETE FROM words")
     suspend fun deleteAllTodos()
+
+
+    @Query("SELECT * FROM words WHERE word LIKE (:searchStr)")
+    suspend fun searchWord(searchStr: String): List<WordEntity>
 }
 
 class WordCardRepository(private val wordEntityDatabaseDao: WordEntityDao) {
@@ -76,9 +80,13 @@ class WordCardRepository(private val wordEntityDatabaseDao: WordEntityDao) {
         try {
 
             wordEntityDatabaseDao.insert(wordItem)
-        }catch (e: SQLiteConstraintException){
+        } catch (e: SQLiteConstraintException) {
 
         }
+    }
+
+    suspend fun search(searchStr: String): List<WordEntity> {
+        return wordEntityDatabaseDao.searchWord(searchStr = searchStr)
     }
 
     fun getRelatedWordsWithCategory(category: String): List<WordEntity> {

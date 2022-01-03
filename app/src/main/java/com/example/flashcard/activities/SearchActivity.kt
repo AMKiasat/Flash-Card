@@ -1,6 +1,7 @@
 package com.example.flashcard.activities
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,7 +9,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -27,22 +27,31 @@ import com.example.flashcard.components.CategoryCardListBox
 import com.example.flashcard.components.WordCardListBox
 import com.example.flashcard.localDatabase.CategoryEntityViewModel
 import com.example.flashcard.localDatabase.WordEntity
+import com.example.flashcard.localDatabase.WordEntityViewModel
 
 @ExperimentalFoundationApi
 @Composable
 fun SearchActivity(navController: NavController) {
 
-    val viewModel = CategoryEntityViewModel(LocalContext.current.applicationContext as Application)
-    val categoryList = viewModel.getAll()
-    val returnedVal: MutableLiveData<List<WordEntity>> by lazy {
-        MutableLiveData<List<WordEntity>>(listOf())
+    val catViewModel =
+        CategoryEntityViewModel(LocalContext.current.applicationContext as Application)
+    val wordViewModel = WordEntityViewModel(LocalContext.current.applicationContext as Application)
+
+
+
+    var searchText by remember {
+        mutableStateOf("")
     }
 
     Scaffold(topBar = { },
 
         bottomBar = { BottomNavigationBar(navController = navController) }) { innerPadding ->
         val painter = painterResource(id = R.drawable.ic_background_6)
-        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
             Background(painter = painter, contentDescription = "background")
 
             Column() {
@@ -53,6 +62,9 @@ fun SearchActivity(navController: NavController) {
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
+                        searchText = "%"+it+"%"
+                        Log.d("searchText", "SearchActivity: $searchText")
+//                        val wordSearchRes = wordViewModel.search(it)
 
                     }
                 }
@@ -62,6 +74,7 @@ fun SearchActivity(navController: NavController) {
                     elevation = 5.dp,
                     backgroundColor = Color.White.copy(alpha = 0.8f)
                 ) {
+
                     Column() {
 
                         Row() {
@@ -69,7 +82,7 @@ fun SearchActivity(navController: NavController) {
                             Text(text = "Categories Found:")
                         }
                         CategoryCardListBox(
-                            live_category_list = categoryList,
+                            live_category_list = catViewModel.search(searchText),
                             navController = navController
                         ) /*TODO: use the functions commented instead*/
                         Spacer(modifier = Modifier.padding(8.dp))
@@ -78,7 +91,7 @@ fun SearchActivity(navController: NavController) {
                             Text(text = "Words Found:")
                         }
                         WordCardListBox(
-                            live_cards_list = returnedVal,
+                            live_cards_list = wordViewModel.search(searchText),
                             navController = navController
                         )
                     }

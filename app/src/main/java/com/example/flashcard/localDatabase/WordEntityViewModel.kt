@@ -13,6 +13,9 @@ class WordEntityViewModel(application: Application) : AndroidViewModel(applicati
     val relatedToCategoryWord: MutableLiveData<List<WordEntity>> by lazy {
         MutableLiveData<List<WordEntity>>(listOf())
     }
+    val returnedSearch: MutableLiveData<List<WordEntity>> by lazy {
+        MutableLiveData<List<WordEntity>>(listOf())
+    }
 
     val allWord: MutableLiveData<List<WordEntity>> by lazy {
         MutableLiveData<List<WordEntity>>(listOf())
@@ -33,7 +36,14 @@ class WordEntityViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-
+    fun search(searchStr:String): LiveData<List<WordEntity>> {
+        viewModelScope.launch(Dispatchers.IO) {
+            val x=repository.search(searchStr)
+            returnedSearch.postValue(x)
+            Log.d("searchText", "res: ${x}")
+        }
+        return returnedSearch
+    }
 
     fun getRelatedWords(category_name: String): LiveData<List<WordEntity>> {
         viewModelScope.launch(Dispatchers.IO) {
