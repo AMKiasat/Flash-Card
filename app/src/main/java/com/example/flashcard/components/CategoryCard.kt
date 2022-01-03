@@ -1,6 +1,6 @@
 package com.example.flashcard.components
 
-import android.widget.Space
+import android.app.Application
 import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -23,11 +23,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
+import com.example.flashcard.localDatabase.CategoryEntity
+import com.example.flashcard.localDatabase.CategoryEntityViewModel
 import kotlin.math.roundToInt
 
 //@Preview
@@ -40,11 +41,13 @@ import kotlin.math.roundToInt
 fun CategoryCard(
     navController: NavController,
     painter: Painter,
-    title: String,
+    categoryEntity: CategoryEntity,
     modifier: Modifier = Modifier
 ) {
 
     var context = LocalContext.current.applicationContext
+    val categoryEntityViewModel = CategoryEntityViewModel(context as Application)
+
 
     val deleteDialog = remember {
         mutableStateOf(false)
@@ -93,21 +96,24 @@ fun CategoryCard(
                 }
                 Text(
                     modifier = modifier.sizeIn(maxWidth = 170.dp),
-                    text = title,
+                    text = categoryEntity.word,
                     style = MaterialTheme.typography.h6,
-                    color = Color(255,165,0),
+                    color = Color(255, 165, 0),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
                 Box(modifier = modifier
                     .padding(15.dp)
                     .clickable {
+                        categoryEntityViewModel.deleteCategory(categoryEntity)
                         deleteDialog.value = true
+
+
                     }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
                         contentDescription = "Delete Category",
-                        tint = Color(255,165,0)
+                        tint = Color(255, 165, 0)
                     )
                 }
             }
@@ -119,7 +125,7 @@ fun CategoryCard(
             title = { Text(text = "Delete category", color = Color.Black) },
             text = {
                 Text(
-                    text = "Are you sure you want to delete category $title?",
+                    text = "Are you sure you want to delete category ${categoryEntity.word}?",
                     color = Color.Blue
                 )
             },
@@ -129,7 +135,11 @@ fun CategoryCard(
                 TextButton(
                     onClick = {
                         deleteDialog.value = false
-                        Toast.makeText(context, "category $title deleted.", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            context,
+                            "category ${categoryEntity.word} deleted.",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                         /*TODO: delete category*/
                         navController.navigate(ScreenRoute.CategoryScreenRoute.route)
