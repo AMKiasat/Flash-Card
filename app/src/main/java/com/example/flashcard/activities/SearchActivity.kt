@@ -40,7 +40,7 @@ fun SearchActivity(navController: NavController) {
 
 
     var searchText by remember {
-        mutableStateOf("")
+        mutableStateOf("%%")
     }
 
     Scaffold(topBar = { },
