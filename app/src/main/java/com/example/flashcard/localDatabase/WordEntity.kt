@@ -23,7 +23,7 @@ data class WordEntity(
     @ColumnInfo val lastRememberTime: String,
     @ColumnInfo val rememberType: String,
     @ColumnInfo val rememberCount: Int,
-    @ColumnInfo val learned: Boolean,
+    @ColumnInfo var learned: Boolean,
 
 
     )

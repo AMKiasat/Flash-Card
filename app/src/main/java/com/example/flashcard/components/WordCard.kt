@@ -193,8 +193,10 @@ fun WordCard(
                 TextButton(
                     onClick = {
                         learningDialog.value = false
+                        wordEntity.learned =true
+                        wordEntityViewModel.updateWord(wordEntity)
+
                         Toast.makeText(context, wordEntity.word + " learned.", Toast.LENGTH_SHORT).show()
-                        /*TODO: Changing learned value in the word.*/
                     }) {
                     Text(text = "Got it !", color = Color.Green)
                 }
@@ -204,6 +206,8 @@ fun WordCard(
                 TextButton(
                     onClick = {
                         learningDialog.value = false
+                        wordEntity.learned =false
+                        wordEntityViewModel.updateWord(wordEntity)
                     }) {
                     Text(text = "Wrong :(", color = Color.Red)
                 }

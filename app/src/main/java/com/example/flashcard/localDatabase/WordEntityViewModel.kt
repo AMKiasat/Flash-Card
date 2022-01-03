@@ -33,6 +33,8 @@ class WordEntityViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
+
+
     fun getRelatedWords(category_name: String): LiveData<List<WordEntity>> {
         viewModelScope.launch(Dispatchers.IO) {
 
