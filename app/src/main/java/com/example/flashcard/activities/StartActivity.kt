@@ -7,13 +7,10 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
@@ -89,9 +86,10 @@ fun StartActivity(navController: NavController) {
 
 suspend fun checkLogin(appPref: AppPref): Boolean {
 
-    val username = appPref.getString(AppPref.USERNAME)
-    Log.d("YOYOYOY", "checkLogin: ${username}")
-    return username != null
+    val is_logined = appPref.getString(AppPref.IS_LOGINED)
+    Log.d("YOYOYOY", "checkLogin: ${is_logined}")
+    val flag = is_logined == "true" || is_logined != null
+    return flag
 
 
 }

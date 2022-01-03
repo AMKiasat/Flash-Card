@@ -11,7 +11,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +24,8 @@ import androidx.navigation.NavController
 import com.example.flashcard.R
 import com.example.flashcard.ScreenRoute
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.math.roundToInt
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -48,14 +49,20 @@ fun LoginActivity(navController: NavController) {
         mutableStateOf("")
     }
 
+    var saveFlag by remember {
+        mutableStateOf(false)
+    }
+
+    var navFlag by remember {
+        mutableStateOf(false)
+    }
+
 
     val x_offset = remember {
         Animatable(1f)
     }
 
-    val appContext = LocalContext.current
 
-    val painter = painterResource(id = R.drawable.ic_background_1)
 
 
     LaunchedEffect(key1 = true) {
@@ -79,7 +86,8 @@ fun LoginActivity(navController: NavController) {
         ) {
 
         val usernameModifier = Modifier.offset(x = (x_offset.value * -100).roundToInt().dp)
-        TextField(value = username,
+        TextField(
+            value = username,
             modifier = usernameModifier,
             onValueChange = {
                 username = it
@@ -124,14 +132,17 @@ fun LoginActivity(navController: NavController) {
         Button(
             onClick = {
                 apiModel.checkLogin(LoginData(username, password))
-                val status = apiModel.status
-                if (status == "200") {
+                Timer("xxx", false).schedule(2000) {
+                    val status = apiModel.status
+                    if (status == "200") {
+                        saveFlag = true
+                    } else {
 
-                    navController.navigate(ScreenRoute.HomeScreenRoute.route)
+                        message = "wrong credential!"
+                    }
+
 
                 }
-
-                message = "wrong credential!"
 
 
             },
@@ -150,17 +161,25 @@ fun LoginActivity(navController: NavController) {
     val pref = AppPref(context = context)
     val scope = rememberCoroutineScope()
 
+    if (saveFlag) {
+        scope.launch {
+            loginAndSave(username = username, password = password, pref)
+            navFlag = true
+        }
 
-
-    scope.launch {
-        loginAndSave(username = username, password = password, pref)
     }
+
+    if (navFlag) {
+        navController.navigate(ScreenRoute.HomeScreenRoute.route)
+    }
+
 
 }
 
 suspend fun loginAndSave(username: String, password: String, pref: AppPref) {
 
-    Log.d("LOGIN", "loginAndSave: $username $password")
+    Log.d("checkLogin", " true")
+    pref.putString(AppPref.IS_LOGINED, "true")
     pref.putString(AppPref.USERNAME, username)
     pref.putString(AppPref.PASSWORD, password)
 

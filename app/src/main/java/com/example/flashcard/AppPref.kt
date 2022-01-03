@@ -1,4 +1,5 @@
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -14,7 +15,8 @@ class AppPref(private val context: Context) {
         // put your settings or configs here
         val USERNAME = "username"
         val PASSWORD = "password"
-        val DARK_MODE = false
+        val DARK_MODE = "dark_mode"
+        val IS_LOGINED = "is_loginedd"
     }
 
 
@@ -23,6 +25,7 @@ class AppPref(private val context: Context) {
         context.myDataStore.edit { settings ->
             settings[dataStoreKey] = value
         }
+        Log.d("checkLogin", "saved ")
     }
 
     suspend fun getString(key: String): String? {
