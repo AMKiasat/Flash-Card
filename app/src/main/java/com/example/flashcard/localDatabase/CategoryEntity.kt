@@ -1,11 +1,16 @@
 package com.example.flashcard.localDatabase
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
 import com.example.flashcard.R
 
 val DEFAULT_CATEGORY_CARD_PIC_ID = R.drawable.start_now
 
-@Entity(tableName = "categories")
+@Entity(
+    tableName = "categories", indices = [
+        Index(value = ["word"], unique = true)
+    ]
+)
 data class CategoryEntity(
 
     @PrimaryKey(autoGenerate = true)
@@ -35,7 +40,12 @@ class CategoryCardRepository(private val wordEntityDatabaseDao: CategoryEntityDA
 
 
     fun addCategory(wordItem: CategoryEntity) {
-        wordEntityDatabaseDao.insert(wordItem)
+        try {
+
+            wordEntityDatabaseDao.insert(wordItem)
+        }catch (e: SQLiteConstraintException){
+
+        }
     }
 
 

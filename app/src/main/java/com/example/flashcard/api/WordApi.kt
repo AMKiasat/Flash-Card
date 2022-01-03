@@ -22,7 +22,7 @@ data class WordApi(
     val pic_location: String?,
     val word: String,
     val definition: String,
-    val category: String?,
+    val category: String,
     val lastRememberTime: String,
     val rememberType: String,
     val rememberCount: Int,
