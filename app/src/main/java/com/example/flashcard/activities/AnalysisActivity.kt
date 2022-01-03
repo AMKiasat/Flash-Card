@@ -3,12 +3,14 @@ package com.example.flashcard.activities
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.example.flashcard.R
+import com.example.flashcard.components.WordCard
 import com.example.flashcard.components.WordCardListBox
 import com.example.flashcard.localDatabase.FlashCardDatabase
 import com.example.flashcard.localDatabase.WordCardRepository
@@ -39,6 +42,8 @@ fun AnalysisActivity(navController: NavController) {
         MutableLiveData<List<WordEntity>>()
     }
 
+    val cards_list by liveLearnedWords.observeAsState(initial = emptyList())
+
     liveLearnedWords.postValue(learnedWords)
     Log.d("LEARNEDWORDS", "AnalysisActivity:$liveLearnedWords ")
     Log.d("LEARNEDWORDS", "AnalysisActivity:$learnedWords ")
@@ -57,23 +62,32 @@ fun AnalysisActivity(navController: NavController) {
             shape = RoundedCornerShape(15.dp),
             elevation = 5.dp,
             backgroundColor = Color.White.copy(alpha = 0.8f)
-            ) {
-            Column(
+        ) {
+            LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                var value by remember {
-                    mutableStateOf(0)
+                item {
+                    var value by remember {
+                        mutableStateOf(0)
+                    }
+                    CustomComponent(
+                        indicatorValue = learnedWordSize,
+                        maxIndicatorValue = allWordSize
+                    )
                 }
-                CustomComponent(
-                    indicatorValue = learnedWordSize,
-                    maxIndicatorValue = allWordSize
-                )
-
-                Text(text = "Learned words:")
-                Spacer(modifier = Modifier.padding(8.dp))
-
-                WordCardListBox(live_cards_list =liveLearnedWords, navController = navController)
+                stickyHeader {
+                    Text(text = "Learned words:")
+                }
+                gridItems(cards_list.size, nColumns = 2) { index ->
+                    val the_card = cards_list.get(index)
+                    WordCard(
+                        modifier = Modifier.padding(10.dp),
+                        painter = painterResource(id = R.drawable.start_now),
+                        wordEntity = the_card,
+                        navController = navController
+                    )
+                }
 //                TextField(
 //                    value = value.toString(), onValueChange = {
 //                        value = if (it.isNotEmpty()) {

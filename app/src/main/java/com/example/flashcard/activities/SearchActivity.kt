@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -12,6 +14,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
@@ -23,8 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.example.flashcard.R
-import com.example.flashcard.components.CategoryCardListBox
-import com.example.flashcard.components.WordCardListBox
+import com.example.flashcard.components.*
 import com.example.flashcard.localDatabase.CategoryEntityViewModel
 import com.example.flashcard.localDatabase.WordEntity
 import com.example.flashcard.localDatabase.WordEntityViewModel
@@ -38,10 +40,11 @@ fun SearchActivity(navController: NavController) {
     val wordViewModel = WordEntityViewModel(LocalContext.current.applicationContext as Application)
 
 
-
     var searchText by remember {
         mutableStateOf("%%")
     }
+
+    val cards_list by wordViewModel.search(searchText).observeAsState(initial = emptyList())
 
     Scaffold(topBar = { },
 
@@ -62,10 +65,9 @@ fun SearchActivity(navController: NavController) {
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        searchText = "%"+it+"%"
+                        searchText = "%" + it + "%"
                         Log.d("searchText", "SearchActivity: $searchText")
 //                        val wordSearchRes = wordViewModel.search(it)
-
                     }
                 }
                 Card(
@@ -75,25 +77,35 @@ fun SearchActivity(navController: NavController) {
                     backgroundColor = Color.White.copy(alpha = 0.8f)
                 ) {
 
-                    Column() {
+                    LazyColumn() {
+                        stickyHeader {
+                            Text(text = "Categories Found:", modifier = Modifier.padding(8.dp))
+                        }
 
-                        Row() {
-                            Spacer(modifier = Modifier.padding(8.dp))
-                            Text(text = "Categories Found:")
+                        item {
+                            CategorySearch(
+                                live_category_list = catViewModel.search(searchText),
+                                navController = navController
+                            )
                         }
-                        CategoryCardListBox(
-                            live_category_list = catViewModel.search(searchText),
-                            navController = navController
-                        ) /*TODO: use the functions commented instead*/
-                        Spacer(modifier = Modifier.padding(8.dp))
-                        Row() {
-                            Spacer(modifier = Modifier.padding(8.dp))
-                            Text(text = "Words Found:")
+                        stickyHeader {
+                            Text(text = "Words Found:", modifier = Modifier.padding(8.dp))
                         }
-                        WordCardListBox(
-                            live_cards_list = wordViewModel.search(searchText),
-                            navController = navController
-                        )
+                        gridItems(cards_list.size, nColumns = 2) { index ->
+                            val the_card = cards_list.get(index)
+                            WordCard(
+                                modifier = Modifier.padding(10.dp),
+                                painter = painterResource(id = R.drawable.start_now),
+                                wordEntity = the_card,
+                                navController = navController
+                            )
+                        }
+//                        Grid{
+//                            WordSearch(
+//                                live_cards_list = wordViewModel.search(searchText),
+//                                navController = navController
+//                            )
+//                        }
                     }
                 }
             }
@@ -143,6 +155,46 @@ fun SearchBar(
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 12.dp)
             )
+        }
+    }
+}
+
+fun LazyListScope.gridItems(
+    count: Int,
+    nColumns: Int,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    itemContent: @Composable BoxScope.(Int) -> Unit,
+) {
+    gridItems(
+        data = List(count) { it },
+        nColumns = nColumns,
+        horizontalArrangement = horizontalArrangement,
+        itemContent = itemContent,
+    )
+}
+
+fun <T> LazyListScope.gridItems(
+    data: List<T>,
+    nColumns: Int,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    itemContent: @Composable BoxScope.(T) -> Unit,
+) {
+    val rows = if (data.count() == 0) 0 else 1 + (data.count() - 1) / nColumns
+    items(rows) { rowIndex ->
+        Row(horizontalArrangement = horizontalArrangement) {
+            for (columnIndex in 0 until nColumns) {
+                val itemIndex = rowIndex * nColumns + columnIndex
+                if (itemIndex < data.count()) {
+                    Box(
+                        modifier = Modifier.weight(1f, fill = true),
+                        propagateMinConstraints = true
+                    ) {
+                        itemContent.invoke(this, data[itemIndex])
+                    }
+                } else {
+                    Spacer(Modifier.weight(1f, fill = true))
+                }
+            }
         }
     }
 }
