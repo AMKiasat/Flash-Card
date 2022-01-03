@@ -1,5 +1,6 @@
 package com.example.flashcard.localDatabase
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
 import com.example.flashcard.R
 
@@ -9,7 +10,11 @@ val DAILY_REMEMBER_TYPE = "daily"
 val WEEKLY_REMEMBER_TYPE = "weekly"
 
 
-@Entity(tableName = "words")
+@Entity(
+    tableName = "words", indices = [
+        Index(value = ["word", "category"], unique = true)
+    ]
+)
 data class WordEntity(
 
     @PrimaryKey(autoGenerate = true)
@@ -19,7 +24,7 @@ data class WordEntity(
     @ColumnInfo val pic_location: String?,
     @ColumnInfo val word: String,
     @ColumnInfo val definition: String,
-    @ColumnInfo(defaultValue = "all") val category: String?,
+    @ColumnInfo(defaultValue = "all") val category: String,
     @ColumnInfo val lastRememberTime: String,
     @ColumnInfo val rememberType: String,
     @ColumnInfo val rememberCount: Int,
@@ -68,7 +73,12 @@ class WordCardRepository(private val wordEntityDatabaseDao: WordEntityDao) {
 
 
     fun addWord(wordItem: WordEntity) {
-        wordEntityDatabaseDao.insert(wordItem)
+        try {
+
+            wordEntityDatabaseDao.insert(wordItem)
+        }catch (e: SQLiteConstraintException){
+
+        }
     }
 
     fun getRelatedWordsWithCategory(category: String): List<WordEntity> {

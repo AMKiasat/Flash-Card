@@ -30,12 +30,12 @@ import com.example.flashcard.ScreenRoute
 import com.example.flashcard.helpers.formatTime
 import com.example.flashcard.localDatabase.*
 import java.time.LocalDateTime
-import kotlin.math.roundToInt
 
 
 @Composable
 fun AddWordActivity(navController: NavController, category_name: String? = "all") {
     val viewModel = WordEntityViewModel(LocalContext.current.applicationContext as Application)
+    var category_name = if (category_name == null) "all" else category_name
 
     val context = LocalContext.current
 
@@ -59,7 +59,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
         elevation = 5.dp,
         backgroundColor = Color.White.copy(alpha = 0.8f),
 
-    ) {
+        ) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -185,8 +185,7 @@ fun AddWordActivity(navController: NavController, category_name: String? = "all"
                 onClick = {
                     if (text == "") {
                         Toast.makeText(context, "Enter a word", Toast.LENGTH_SHORT).show()
-                    }
-                    else if (definition == "") {
+                    } else if (definition == "") {
                         Toast.makeText(context, "Enter a definition", Toast.LENGTH_SHORT).show()
                     } else {
                         val card = WordEntity(
